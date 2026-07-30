@@ -116,7 +116,6 @@ Hostel-Management-System/
 ## 🔮 Future Improvements
 
 - Flask Backend Integration
-- MySQL Database
 - Email Notifications
 - SMS Alerts
 - Push Notifications

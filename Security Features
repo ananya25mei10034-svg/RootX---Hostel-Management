@@ -1,0 +1,12 @@
+
+🔐 Security Features
+
+Have a SECURITY.md file explaining:
+
+-Password hashing
+-Role-based authentication
+-Secure QR validation
+-Session management
+-SQL injection prevention
+-Input validation
+-Access control

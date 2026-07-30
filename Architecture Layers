@@ -1,0 +1,48 @@
+📌 Architecture Layers
+
+1. Presentation Layer (Frontend)
+-Student Dashboard
+-Warden Dashboard
+-Supervisor Dashboard
+-Security Dashboard
+-Login & Authentication Pages
+-QR Scanner Interface
+-Complaint Forms
+-Visitor Registration
+-Announcements
+
+
+2. Application Layer (Backend)
+Developed using Python Flask.
+Handles:
+
+-User Authentication
+-Role-Based Access Control (RBAC)
+-Complaint Processing
+-Leave/Gate Pass Approval
+-Visitor Approval
+-QR Generation & Validation
+-Emergency SOS
+-Dashboard Data
+-Report Generation
+
+
+
+3. Database Layer
+  Stores:
+-Student Details
+-Hostel Rooms
+-Complaint Records
+-Visitor Records
+-Gate Pass Records
+-User Accounts
+-QR Tokens
+-Notifications
+-Announcements
+
+
+4. External Services
+-QR Code Generator
+-QR Code Scanner
+-Email Notifications (Future)
+-SMS Alerts (Future)

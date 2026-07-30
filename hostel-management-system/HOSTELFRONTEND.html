@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> UniNest- Seamless Institutional Management</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<script>
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "on-surface": "#191c1e",
+                    "outline": "#7a7583",
+                    "inverse-surface": "#2d3133",
+                    "inverse-on-surface": "#eff1f3",
+                    "surface-bright": "#f7f9fb",
+                    "surface-dim": "#d8dadc",
+                    "secondary-fixed-dim": "#62dcad",
+                    "tertiary-fixed-dim": "#7bd1fa",
+                    "outline-variant": "#cac4d4",
+                    "tertiary-fixed": "#c0e8ff",
+                    "tertiary": "#006686",
+                    "surface-container-lowest": "#ffffff",
+                    "background": "#f7f9fb",
+                    "primary-fixed": "#e8ddff",
+                    "secondary-container": "#80f9c8",
+                    "error": "#ba1a1a",
+                    "surface": "#f7f9fb",
+                    "primary": "#674bb5",
+                    "surface-container-low": "#f2f4f6",
+                    "on-secondary-fixed-variant": "#00513a",
+                    "error-container": "#ffdad6",
+                    "surface-variant": "#e0e3e5",
+                    "tertiary-container": "#4da7ce",
+                    "on-error-container": "#93000a",
+                    "primary-container": "#a78bfa",
+                    "on-primary-fixed-variant": "#4f319c",
+                    "on-surface-variant": "#494552",
+                    "surface-container": "#eceef0",
+                    "surface-container-high": "#e6e8ea",
+                    "inverse-primary": "#cebdff",
+                    "secondary": "#006c4e",
+                    "on-background": "#191c1e",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-primary-container": "#3c1989",
+                    "secondary-fixed": "#80f9c8",
+                    "on-primary-fixed": "#21005e",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#007353",
+                    "on-tertiary-container": "#00394d",
+                    "primary-fixed-dim": "#cebdff"
+                },
+                borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                fontFamily: {
+                    "grotesk": ["Space Grotesk", "sans-serif"],
+                    "poppins": ["Poppins", "sans-serif"],
+                    "body": ["Be Vietnam Pro", "sans-serif"]
+                }
+            }
+        }
+    };
+</script>
+<style>
+    body { font-family: 'Be Vietnam Pro', sans-serif; }
+    .mesh-gradient {
+        background-color: #f7f9fb;
+        background-image:
+            radial-gradient(at 0% 0%, #e8ddff 0, transparent 50%),
+            radial-gradient(at 50% 0%, #c0e8ff 0, transparent 50%),
+            radial-gradient(at 100% 0%, #cebdff 0, transparent 50%);
+    }
+    .mesh-soft {
+        background-color: #f7f9fb;
+        background-image:
+            radial-gradient(at 0% 0%, rgba(167, 139, 250, 0.18) 0, transparent 50%),
+            radial-gradient(at 100% 0%, rgba(0, 174, 255, 0.12) 0, transparent 50%),
+            radial-gradient(at 100% 100%, rgba(128, 249, 200, 0.12) 0, transparent 50%),
+            radial-gradient(at 0% 100%, rgba(167, 139, 250, 0.12) 0, transparent 50%);
+    }
+    .glass-card {
+        background: rgba(255, 255, 255, 0.65);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+    .inner-glow { box-shadow: inset 1px 1px 0px 0px rgba(255, 255, 255, 0.5); }
+    .input-focus-accent:focus-within { border-bottom-color: #674bb5; }
+
+    .page { display: none; }
+    .page.active { display: block; }
+    .dpage { display: none; }
+    .dpage.active { display: block; }
+    .spage { display: none; }
+    .spage.active { display: block; }
+
+    /* Badges */
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 9999px; font-size: 11px; font-weight: 700; letter-spacing: 0.02em; }
+    .badge.pending { background: #fff2d6; color: #a06a00; }
+    .badge.approved { background: #d9f2e2; color: #1a7a41; }
+    .badge.active { background: #fde0e0; color: #b23b3b; }
+
+    /* Tables */
+    table.UniNest-table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 14px; }
+    table.UniNest-table th, table.UniNest-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #eceef0; }
+    table.UniNest-table th { background: rgba(103, 75, 181, 0.06); color: #4f319c; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* Login input underline style */
+    .field-underline { border-bottom: 2px solid #cac4d4; }
+    .field-underline:focus-within { border-bottom-color: #674bb5; }
+
+    /* Sidebar */
+    .dash-shell { display: flex; align-items: flex-start; gap: 24px; max-width: 1280px; margin: 30px auto; padding: 0 24px; }
+    .dash-sidebar { width: 280px; flex-shrink: 0; border-radius: 20px; overflow: hidden; position: sticky; top: 88px; }
+    .dash-content { flex: 1; min-width: 0; border-radius: 24px; padding: 32px; min-height: 620px; }
+
+    .nav-item { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 18px; cursor: pointer; font-weight: 600; font-size: 14px; color: #494552; border-left: 4px solid transparent; transition: all 0.15s; border-radius: 0 12px 12px 0; margin-right: 8px; }
+    .nav-item:hover { background: rgba(103, 75, 181, 0.06); color: #674bb5; }
+    .nav-item.active { background: rgba(103, 75, 181, 0.1); border-left-color: #674bb5; color: #674bb5; }
+    .nav-item .left { display: flex; align-items: center; gap: 10px; }
+    .nav-item .count { font-size: 11px; font-weight: 700; background: rgba(103, 75, 181, 0.1); color: #4f319c; padding: 2px 9px; border-radius: 9999px; }
+    .nav-item.active .count { background: #674bb5; color: white; }
+    .nav-item .count.alert { background: #fde0e0; color: #b23b3b; }
+    .nav-item.sos { color: #b23b3b; }
+    .nav-item.sos:hover { background: #fdf1f1; color: #b23b3b; }
+
+    .subitem { padding: 10px 18px 10px 46px; cursor: pointer; font-size: 13px; font-weight: 600; color: #6b6577; border-left: 4px solid transparent; display: flex; justify-content: space-between; align-items: center; }
+    .subitem:hover { background: rgba(103, 75, 181, 0.04); color: #674bb5; }
+    .subitem.active { color: #674bb5; border-left-color: #674bb5; background: rgba(103, 75, 181, 0.08); }
+    .submenu { max-height: 0; overflow: hidden; transition: max-height 0.25s ease; background: rgba(249, 250, 251, 0.6); }
+    .nav-group.open .submenu { max-height: 240px; }
+    .nav-group .chevron { transition: transform 0.2s; font-size: 14px; }
+    .nav-group.open .chevron { transform: rotate(90deg); }
+
+    /* Stat cards */
+    .stat-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 20px 0 28px; }
+    .stat-card { background: rgba(103, 75, 181, 0.04); border-radius: 16px; padding: 18px 20px; border: 1px solid rgba(103, 75, 181, 0.1); position: relative; overflow: hidden; }
+    .stat-card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: #674bb5; }
+    .stat-card .num { font-size: 28px; font-weight: 700; color: #191c1e; font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.02em; }
+    .stat-card .lbl { font-size: 12.5px; color: #494552; margin-top: 2px; font-weight: 500; }
+
+    /* Buttons */
+    .btn-primary { background: linear-gradient(135deg, #674bb5, #4da7ce); color: white; font-weight: 700; padding: 12px 22px; border-radius: 12px; box-shadow: 0 6px 16px -4px rgba(103, 75, 181, 0.35); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; cursor: pointer; font-family: 'Poppins', sans-serif; }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 10px 22px -4px rgba(103, 75, 181, 0.4); }
+    .btn-primary:active { transform: scale(0.97); }
+    .btn-danger { background: linear-gradient(135deg, #d13b3b, #a51e1e); color: white; font-weight: 700; padding: 12px 22px; border-radius: 12px; box-shadow: 0 6px 16px -4px rgba(209, 59, 59, 0.35); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; cursor: pointer; font-family: 'Poppins', sans-serif; }
+    .btn-danger:hover { transform: translateY(-1px); }
+    .btn-approve { background: #d9f2e2; color: #1a7a41; padding: 6px 14px; border-radius: 8px; font-size: 12.5px; font-weight: 700; border: 1px solid rgba(26, 122, 65, 0.2); cursor: pointer; margin-right: 6px; }
+    .btn-approve:hover { background: #c1e9d0; }
+    .btn-reject { background: #fde0e0; color: #b23b3b; padding: 6px 14px; border-radius: 8px; font-size: 12.5px; font-weight: 700; border: 1px solid rgba(178, 59, 59, 0.2); cursor: pointer; }
+    .btn-reject:hover { background: #f8caca; }
+
+    input[type=text], input[type=password], select, textarea { font-family: 'Be Vietnam Pro', sans-serif; }
+    .field { width: 100%; padding: 10px 14px; margin-top: 6px; border: 1px solid #cac4d4; border-radius: 10px; font-size: 14px; background: rgba(255,255,255,0.7); outline: none; transition: all 0.15s; }
+    .field:focus { border-color: #674bb5; box-shadow: 0 0 0 3px rgba(103, 75, 181, 0.15); }
+    label.UniNest { display: block; margin-top: 14px; font-weight: 700; font-size: 12px; color: #494552; text-transform: uppercase; letter-spacing: 0.05em; font-family: 'Poppins', sans-serif; }
+
+    .section-box { background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(12px); border-radius: 16px; padding: 22px; margin-top: 22px; border: 1px solid rgba(103, 75, 181, 0.08); }
+
+    .feed-item { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(103, 75, 181, 0.08); }
+    .feed-item:last-child { border-bottom: none; }
+    .feed-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; background: rgba(103, 75, 181, 0.08); }
+    .feed-title { font-weight: 600; font-size: 14px; color: #191c1e; }
+    .feed-meta { font-size: 12px; color: #7a7583; margin-top: 3px; }
+
+    .two-col { display: grid; grid-template-columns: 1.3fr 1fr; gap: 26px; margin-top: 6px; }
+    .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 20px; }
+    .info-cell { background: rgba(103, 75, 181, 0.05); border-radius: 12px; padding: 14px 16px; border: 1px solid rgba(103, 75, 181, 0.08); }
+    .info-cell .lbl2 { font-size: 11px; color: #7a7583; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+    .info-cell .val2 { font-size: 15px; font-weight: 700; color: #191c1e; margin-top: 4px; font-family: 'Space Grotesk', sans-serif; }
+
+    /* Role card corner radii like the UniNest landing */
+    .role-card-shape { border-top-left-radius: 1.5rem; border-bottom-right-radius: 1.5rem; border-top-right-radius: 4rem; border-bottom-left-radius: 4rem; }
+
+    @media (max-width: 960px) {
+        .two-col { grid-template-columns: 1fr; }
+        .dash-shell { flex-direction: column; }
+        .dash-sidebar { width: 100%; position: static; }
+        .stat-strip { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .panel-head h3 { color: #191c1e; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; margin: 0; }
+    .mini-link { font-size: 13px; color: #674bb5; font-weight: 600; cursor: pointer; }
+    .mini-link:hover { text-decoration: underline; }
+
+    h1, h2, h3, h4 { color: #191c1e; font-family: 'Space Grotesk', sans-serif; }
+    h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.01em; }
+    h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+</style>
+</head>
+<body class="min-h-screen text-on-surface bg-surface">
+
+<!-- ============ TOP NAV ============ -->
+<nav class="mesh-gradient sticky top-0 z-50 px-6 py-4 flex items-center justify-between border-b border-on-surface/5">
+    <div class="text-2xl font-extrabold text-primary tracking-tight flex items-center gap-2 font-grotesk cursor-pointer" onclick="showPage('Welcome')">
+        <span class="bg-primary text-white p-1 rounded-lg flex items-center justify-center">
+            <span class="material-symbols-outlined block">domain</span>
+        </span>
+        UniNest
+    </div>
+    <div class="flex items-center space-x-6">
+        <div class="hidden md:flex items-center space-x-6">
+            <a class="text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors" href="#">Notices</a>
+            <a class="text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors" href="#">Emergency</a>
+        </div>
+        <div class="flex items-center space-x-2 border-l border-outline-variant pl-6">
+            <button class="text-on-surface-variant hover:bg-primary-fixed/50 hover:text-primary p-2 rounded-full transition-colors" title="Notifications">
+                <span class="material-symbols-outlined">notifications</span>
+            </button>
+            <button class="text-on-surface-variant hover:bg-primary-fixed/50 hover:text-primary p-2 rounded-full transition-colors" onclick="document.documentElement.classList.toggle('dark')" title="Toggle theme">
+                <span class="material-symbols-outlined">dark_mode</span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- ============ 1. WELCOME / LANDING ============ -->
+<div class="page active" data-page="Welcome">
+    <main class="max-w-7xl mx-auto px-6 py-8 md:py-16">
+        <header class="mesh-gradient text-center py-20 px-8 rounded-3xl shadow-xl shadow-primary/5 mb-16 relative overflow-hidden border border-white/40">
+            <div class="relative z-10">
+                <span class="inline-block py-1 px-4 rounded-full bg-primary/10 text-primary text-xs font-bold tracking-widest uppercase mb-6 backdrop-blur-sm border border-primary/20">
+                    Welcome to the future of living
+                </span>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-on-surface mb-6 tracking-tight leading-tight font-grotesk">
+                    Seamless Institutional <br class="hidden md:block"><span class="text-primary">Management</span>
+                </h1>
+                <p class="text-on-surface-variant text-lg md:text-2xl font-medium max-w-2xl mx-auto mb-4">
+                    The system your hostel deserved yesterday.
+                </p>
+                <p class="text-on-surface-variant/70 text-sm md:text-base font-normal max-w-lg mx-auto">
+                    A digital initiative facilitating Students, Supervisors, Wardens and Security to access and manage hostel services on one common platform.
+                </p>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Student -->
+            <div class="glass-card role-card-shape shadow-xl shadow-primary/5 p-8 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 group">
+                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary-container to-primary flex items-center justify-center mb-8 shadow-lg shadow-primary/20 group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-white" style="font-size:40px;">school</span>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 font-poppins">Student</h3>
+                <p class="text-on-surface-variant text-sm leading-relaxed mb-8 flex-grow">Manage leaves, track complaints, and request visitors — all from one place.</p>
+                <button class="w-full py-3.5 px-6 btn-primary" onclick="showPage('Student Login')">LOGIN</button>
+            </div>
+            <!-- Supervisor -->
+            <div class="glass-card role-card-shape shadow-xl shadow-primary/5 p-8 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 group">
+                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-tertiary-fixed to-tertiary-container flex items-center justify-center mb-8 shadow-lg shadow-tertiary/20 group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-white" style="font-size:40px;">badge</span>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 font-poppins">Supervisor</h3>
+                <p class="text-on-surface-variant text-sm leading-relaxed mb-8 flex-grow">Monitor hostel operations, approvals, and overall activity with ease.</p>
+                <button class="w-full py-3.5 px-6 btn-primary" onclick="showPage('Supervisor Login')">LOGIN</button>
+            </div>
+            <!-- Warden -->
+            <div class="glass-card role-card-shape shadow-xl shadow-primary/5 p-8 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 group">
+                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-secondary-fixed to-secondary-container flex items-center justify-center mb-8 shadow-lg shadow-secondary/20 group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-white" style="font-size:40px;">apartment</span>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 font-poppins">Warden</h3>
+                <p class="text-on-surface-variant text-sm leading-relaxed mb-8 flex-grow">Approve leaves, resolve complaints, and manage students efficiently.</p>
+                <button class="w-full py-3.5 px-6 btn-primary" onclick="showPage('Warden Login')">LOGIN</button>
+            </div>
+            <!-- Security -->
+            <div class="glass-card role-card-shape shadow-xl shadow-primary/5 p-8 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 group">
+                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary-fixed-dim to-primary-container flex items-center justify-center mb-8 shadow-lg shadow-primary/20 group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-white" style="font-size:40px;">shield_person</span>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 font-poppins">Security</h3>
+                <p class="text-on-surface-variant text-sm leading-relaxed mb-8 flex-grow">Verify visitors quickly and ensure a safe hostel environment.</p>
+                <button class="w-full py-3.5 px-6 btn-primary" onclick="showPage('Security Login')">LOGIN</button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- ============ LOGIN PAGES (helper macro-like structure) ============ -->
+
+<!-- Student Login -->
+<div class="page" data-page="Student Login">
+    <main class="mesh-soft min-h-[calc(100vh-160px)] flex items-center justify-center py-12 px-4">
+        <div class="glass-card w-full max-w-md rounded-2xl p-8 md:p-10 shadow-xl shadow-primary/10 inner-glow">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mb-4">
+                    <span class="material-symbols-outlined text-primary" style="font-size:36px;">school</span>
+                </div>
+                <h1 class="font-poppins font-bold text-2xl text-primary mb-1">Student</h1>
+                <p class="text-sm text-on-surface-variant">Enter your credentials to continue</p>
+            </div>
+            <form class="space-y-5" onsubmit="attemptLogin('student'); return false;">
+                <div>
+                    <label class="UniNest">Registration Number</label>
+                    <div class="relative flex items-center field-underline mt-1">
+                        <span class="material-symbols-outlined absolute left-0 text-on-surface-variant">person</span>
+                        <input id="student-id-input" class="w-full pl-8 py-2.5 bg-transparent border-none focus:outline-none text-base placeholder:text-outline-variant" placeholder="e.g., STU001" type="text" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="UniNest">Password</label>
+                    <div class="relative flex items-center field-underline mt-1">
+                        <span class="material-symbols-outlined absolute left-0 text-on-surface-variant">lock</span>
+                        <input id="student-pass-input" class="w-full pl-8 pr-10 py-2.5 bg-transparent border-none focus:outline-none text-base placeholder:text-outline-variant" placeholder="Enter password" type="password" required>
+                        <button type="button" class="absolute right-0 text-on-surface-variant hover:text-primary" onclick="togglePw('student-pass-input', this)"><span class="material-symbols-outlined">visibility</span></button>
+                    </div>
+                </div>
+                <div>
+                    <label class="UniNest">Security Verification</label>
+                    <div class="flex items-center gap-3 bg-white/60 p-3 rounded-xl border border-outline-variant/40 mt-1">
+                        <div id="student-captcha-text" class="bg-primary/10 py-2 px-4 rounded-lg font-mono text-lg tracking-[0.5em] select-none italic text-primary font-bold line-through decoration-primary/30 shadow-inner border border-primary/10">6C05Q</div>
+                        <button type="button" class="text-on-surface-variant hover:text-primary hover:rotate-180 transition-all duration-500 p-1" onclick="refreshCaptcha('student')"><span class="material-symbols-outlined">refresh</span></button>
+                        <input id="student-captcha-input" class="flex-grow min-w-0 bg-white/70 border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="Type text" type="text">
+                    </div>
+                </div>
+                <p id="student-login-error" class="text-error text-sm font-semibold hidden"></p>
+                <button type="submit" class="w-full btn-primary py-3.5"><span class="material-symbols-outlined">login</span>Login</button>
+            </form>
+            <div class="mt-8 flex flex-wrap justify-between gap-2 border-t border-outline-variant/20 pt-6">
+                <a class="text-sm text-on-surface-variant hover:text-primary transition-all flex items-center gap-1" href="#"><span class="material-symbols-outlined text-sm">help_outline</span>Forgot Password?</a>
+                <a class="text-sm text-on-surface-variant hover:text-primary transition-all flex items-center gap-1" href="#"><span class="material-symbols-outlined text-sm">badge</span>Forgot ID?</a>
+            </div>
+            <div class="mt-6 text-center">
+                <a class="inline-flex items-center gap-2 text-primary font-poppins font-bold text-sm hover:gap-3 transition-all cursor-pointer" onclick="showPage('Welcome')">Go to Home Page<span class="material-symbols-outlined">arrow_forward</span></a>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Warden Login -->
+<div class="page" data-page="Warden Login">
+    <main class="mesh-soft min-h-[calc(100vh-160px)] flex items-center justify-center py-12 px-4">
+        <div class="glass-card w-full max-w-md rounded-2xl p-8 md:p-10 shadow-xl shadow-primary/10 inner-glow">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mb-4">
+                    <span class="material-symbols-outlined text-primary" style="font-size:36px;">apartment</span>
+                </div>
+                <h1 class="font-poppins font-bold text-2xl text-primary mb-1">Warden</h1>
+                <p class="text-sm text-on-surface-variant">Enter your credentials to continue</p>
+            </div>
+            <form class="space-y-5" onsubmit="attemptLogin('warden'); return false;">
+                <div>
+                    <label class="UniNest">Warden ID</label>
+                    <div class="relative flex items-center field-underline mt-1">
+                        <span class="material-symbols-outlined absolute left-0 text-on-surface-variant">person</span>
+                        <input id="warden-id-input" class="w-full pl-8 py-2.5 bg-transparent border-none focus:outline-none text-base placeholder:text-outline-variant" placeholder="e.g., WAR001" type="text" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="UniNest">Password</label>
+                    <div class="relative flex items-center field-underline mt-1">
+                        <span class="material-symbols-outlined absolute left-0 text-on-surface-variant">lock</span>
+                        <input id="warden-pass-input" class="w-full pl-8 pr-10 py-2.5 bg-transparent border-none focus:outline-none text-base placeholder:text-outline-variant" placeholder="Enter password" type="password" required>
+                        <button type="button" class="absolute right-0 text-on-surface-variant hover:text-primary" onclick="togglePw('warden-pass-input', this)"><span class="material-symbols-outlined">visibility</span></button>
+                    </div>
+                </div>
+                <div>
+                    <label class="UniNest">Security Verification</label>
+                    <div class="flex items-center gap-3 bg-white/60 p-3 rounded-xl border border-outline-variant/40 mt-1">
+                        <div id="warden-captcha-text" class="bg-primary/10 py-2 px-4 rounded-lg font-mono text-lg tracking-[0.5em] select-none italic text-primary font-bold line-through decoration-primary/30 shadow-inner border border-primary/10">9F3AK</div>
+                        <button type="button" class="text-on-surface-variant hover:text-primary hover:rotate-180 transition-all duration-500 p-1" onclick="refreshCaptcha('warden')"><span class="material-symbols-outlined">refresh</span></button>
+                        <input id="warden-captcha-input" class="flex-grow min-w-0 bg-white/70 border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="Type text" type="text">
+                    </div>
+                </div>
+                <p id="warden-login-error" class="text-error text-sm font-semibold hidden"></p>
+                <button type="submit" class="w-full btn-primary py-3.5"><span class="material-symbols-outlined">login</span>Login</button>
+            </form>
+            <div class="mt-6 text-center">
+                <a class="inline-flex items-center gap-2 text-primary font-poppins font-bold text-sm hover:gap-3 transition-all cursor-pointer" onclick="showPage('Welcome')">Go to Home Page<span class="material-symbols-outlined">arrow_forward</span></a>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Supervisor Login -->
+<div class="page" data-page="Supervisor Login">
+    <main class="mesh-soft min-h-[calc(100vh-160px)] flex items-center justify-center py-12 px-4">
+        <div class="glass-card w-full max-w-md rounded-2xl p-8 md:p-10 shadow-xl shadow-primary/10 inner-glow">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mb-4">
+                    <span class="material-symbols-outlined text-primary" style="font-size:36px;">badge</span>
+                </div>
+                <h1 class="font-poppins font-bold text-2xl text-primary mb-1">Supervisor</h1>
+                <p class="text-sm text-on-surface-variant">Enter your credentials to continue</p>
+            </div>
+            <form class="space-y-5" onsubmit="attemptLogin('supervisor'); return false;">
+                <div>
+                    <label class="UniNest">Supervisor ID</label>
+                    <div class="relative flex items-center field-underline mt-1">
+                        <span class="material-symbols-outlined absolute left-0 text-on-surface-variant">person</span>
+                        <input id="supervisor-id-input" class="w-full pl-8 py-2.5 bg-transparent border-none focus:outline-none text-base placeholder:text-outline-variant" placeholder="e.g., SUP001" type="text" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="UniNest">Password</label>
+                    <div class="relative flex items-center field-underline mt-1">
+                        <span class="material-symbols-outlined absolute left-0 text-on-surface-variant">lock</span>
+                        <input id="supervisor-pass-input" class="w-full pl-8 pr-10 py-2.5 bg-transparent border-none focus:outline-none text-base placeholder:text-outline-variant" placeholder="Enter password" type="password" required>
+                        <button type="button" class="absolute right-0 text-on-surface-variant hover:text-primary" onclick="togglePw('supervisor-pass-input', this)"><span class="material-symbols-outlined">visibility</span></button>
+                    </div>
+                </div>
+                <div>
+                    <label class="UniNest">Security Verification</label>
+                    <div class="flex items-center gap-3 bg-white/60 p-3 rounded-xl border border-outline-variant/40 mt-1">
+                        <div id="supervisor-captcha-text" class="bg-primary/10 py-2 px-4 rounded-lg font-mono text-lg tracking-[0.5em] select-none italic text-primary font-bold line-through decoration-primary/30 shadow-inner border border-primary/10">7BQ2X</div>
+                        <button type="button" class="text-on-surface-variant hover:text-primary hover:rotate-180 transition-all duration-500 p-1" onclick="refreshCaptcha('supervisor')"><span class="material-symbols-outlined">refresh</span></button>
+                        <input id="supervisor-captcha-input" class="flex-grow min-w-0 bg-white/70 border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="Type text" type="text">
+                    </div>
+                </div>
+                <p id="supervisor-login-error" class="text-error text-sm font-semibold hidden"></p>
+                <button type="submit" class="w-full btn-primary py-3.5"><span class="material-symbols-outlined">login</span>Login</button>
+            </form>
+            <div class="mt-6 text-center">
+                <a class="inline-flex items-center gap-2 text-primary font-poppins font-bold text-sm hover:gap-3 transition-all cursor-pointer" onclick="showPage('Welcome')">Go to Home Page<span class="material-symbols-outlined">arrow_forward</span></a>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Security Login -->
+<div class="page" data-page="Security Login">
+    <main class="mesh-soft min-h-[calc(100vh-160px)] flex items-center justify-center py-12 px-4">
+        <div class="glass-card w-full max-w-md rounded-2xl p-8 md:p-10 shadow-xl shadow-primary/10 inner-glow">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mb-4">
+                    <span class="material-symbols-outlined text-primary" style="font-size:36px;">shield_person</span>
+                </div>
+                <h1 class="font-poppins font-bold text-2xl text-primary mb-1">Security</h1>
+                <p class="text-sm text-on-surface-variant">Enter your credentials to continue</p>
+            </div>
+            <form class="space-y-5" onsubmit="attemptLogin('security'); return false;">
+                <div>
+                    <label class="UniNest">Security ID</label>
+                    <div class="relative flex items-center field-underline mt-1">
+                        <span class="material-symbols-outlined absolute left-0 text-on-surface-variant">person</span>
+                        <input id="security-id-input" class="w-full pl-8 py-2.5 bg-transparent border-none focus:outline-none text-base placeholder:text-outline-variant" placeholder="e.g., SEC001" type="text" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="UniNest">Password</label>
+                    <div class="relative flex items-center field-underline mt-1">
+                        <span class="material-symbols-outlined absolute left-0 text-on-surface-variant">lock</span>
+                        <input id="security-pass-input" class="w-full pl-8 pr-10 py-2.5 bg-transparent border-none focus:outline-none text-base placeholder:text-outline-variant" placeholder="Enter password" type="password" required>
+                        <button type="button" class="absolute right-0 text-on-surface-variant hover:text-primary" onclick="togglePw('security-pass-input', this)"><span class="material-symbols-outlined">visibility</span></button>
+                    </div>
+                </div>
+                <div>
+                    <label class="UniNest">Security Verification</label>
+                    <div class="flex items-center gap-3 bg-white/60 p-3 rounded-xl border border-outline-variant/40 mt-1">
+                        <div id="security-captcha-text" class="bg-primary/10 py-2 px-4 rounded-lg font-mono text-lg tracking-[0.5em] select-none italic text-primary font-bold line-through decoration-primary/30 shadow-inner border border-primary/10">4KD91</div>
+                        <button type="button" class="text-on-surface-variant hover:text-primary hover:rotate-180 transition-all duration-500 p-1" onclick="refreshCaptcha('security')"><span class="material-symbols-outlined">refresh</span></button>
+                        <input id="security-captcha-input" class="flex-grow min-w-0 bg-white/70 border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="Type text" type="text">
+                    </div>
+                </div>
+                <p id="security-login-error" class="text-error text-sm font-semibold hidden"></p>
+                <button type="submit" class="w-full btn-primary py-3.5"><span class="material-symbols-outlined">login</span>Login</button>
+            </form>
+            <div class="mt-6 text-center">
+                <a class="inline-flex items-center gap-2 text-primary font-poppins font-bold text-sm hover:gap-3 transition-all cursor-pointer" onclick="showPage('Welcome')">Go to Home Page<span class="material-symbols-outlined">arrow_forward</span></a>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- ============ STUDENT DASHBOARD ============ -->
+<div class="page" data-page="Student Dashboard">
+    <div class="mesh-soft min-h-[calc(100vh-80px)] py-6">
+    <div class="dash-shell">
+        <!-- Sidebar -->
+        <div class="dash-sidebar glass-card">
+            <div class="p-6 text-center bg-gradient-to-br from-primary to-on-primary-fixed-variant text-white">
+                <div class="w-16 h-16 mx-auto rounded-full bg-white/20 flex items-center justify-center border-2 border-white/40 mb-3">
+                    <span class="material-symbols-outlined" style="font-size:32px;">school</span>
+                </div>
+                <div class="font-bold text-base font-grotesk">Aarav Sharma</div>
+                <div class="text-xs opacity-90 mt-1">Student · REG2026001</div>
+                <div class="text-xs opacity-90 mt-2 inline-block bg-white/15 rounded-full px-3 py-1">🛏️ Room A-101 · Block A</div>
+                <div class="text-[11px] opacity-75 mt-3 pt-2 border-t border-white/25">Last login: Today, 07:48 AM</div>
+            </div>
+            <div class="py-2">
+                <div class="nav-item active" data-snav="Overview" onclick="sshow('Overview', this)"><span class="left"><span class="material-symbols-outlined text-[20px]">home</span>Overview</span></div>
+                <div class="nav-item" data-snav="Raise Complaint" onclick="sshow('Raise Complaint', this)"><span class="left"><span class="material-symbols-outlined text-[20px]">edit_note</span>Raise Complaint</span></div>
+                <div class="nav-item" data-snav="Track Complaint" onclick="sshow('Track Complaint', this)"><span class="left"><span class="material-symbols-outlined text-[20px]">fact_check</span>Track Complaints</span><span class="count">1</span></div>
+                <div class="nav-item" data-snav="Gate Passes" onclick="sshow('Gate Passes', this)"><span class="left"><span class="material-symbols-outlined text-[20px]">luggage</span>Gate Passes</span><span class="count">1</span></div>
+                <div class="nav-item" data-snav="Visitor Request" onclick="sshow('Visitor Request', this)"><span class="left"><span class="material-symbols-outlined text-[20px]">qr_code_2</span>Visitor QR</span><span class="count" id="snav-visitor-count">1</span></div>
+                <div class="nav-item" data-snav="Student Announcements" onclick="sshow('Student Announcements', this)"><span class="left"><span class="material-symbols-outlined text-[20px]">campaign</span>Announcements</span><span class="count">2</span></div>
+                <div class="nav-item sos" data-snav="Student SOS" onclick="sshow('Student SOS', this)"><span class="left"><span class="material-symbols-outlined text-[20px]">emergency</span>Emergency SOS</span></div>
+                <div class="nav-item" data-snav="Student Profile" onclick="sshow('Student Profile', this)"><span class="left"><span class="material-symbols-outlined text-[20px]">person</span>My Profile</span></div>
+                <div class="nav-item" onclick="showPage('Welcome')"><span class="left"><span class="material-symbols-outlined text-[20px]">logout</span>Back to Home</span></div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="dash-content glass-card">
+            <!-- Overview -->
+            <div class="spage active" data-spage="Overview">
+                <h2>Welcome back, Aarav 👋</h2>
+                <p class="text-on-surface-variant text-sm mt-1">Here's what's happening with your stay today, Wednesday 29 July 2026.</p>
+                <div class="stat-strip">
+                    <div class="stat-card"><div class="num">1</div><div class="lbl">Open Complaints</div></div>
+                    <div class="stat-card"><div class="num">1</div><div class="lbl">Pending Gate Passes</div></div>
+                    <div class="stat-card"><div class="num" id="ov-visitor-num">1</div><div class="lbl">Visitor Requests Pending</div></div>
+                    <div class="stat-card"><div class="num">2</div><div class="lbl">New Announcements</div></div>
+                </div>
+                <div class="two-col">
+                    <div>
+                        <div class="panel-head"><h3>My Recent Activity</h3></div>
+                        <div class="feed-item">
+                            <div class="feed-icon"><span class="material-symbols-outlined text-primary">qr_code_2</span></div>
+                            <div class="feed-body"><div class="feed-title">Your visitor request is <span class="badge pending ml-1" id="ov-visitor-badge">pending approval</span></div><div class="feed-meta">Today, 09:20 · Visitor QR</div></div>
+                        </div>
+                        <div class="feed-item">
+                            <div class="feed-icon"><span class="material-symbols-outlined text-primary">luggage</span></div>
+                            <div class="feed-body"><div class="feed-title">Your gate pass — Doctor appointment <span class="badge pending ml-1">pending</span></div><div class="feed-meta">27 Jul, 08:10 · Gate Passes</div></div>
+                        </div>
+                        <div class="feed-item">
+                            <div class="feed-icon"><span class="material-symbols-outlined text-primary">warning</span></div>
+                            <div class="feed-body"><div class="feed-title">Complaint: Fan not working in room A-101 <span class="badge pending ml-1">open</span></div><div class="feed-meta">27 Jul, 07:55 · Complaints</div></div>
+                        </div>
+                        <div class="feed-item">
+                            <div class="feed-icon"><span class="material-symbols-outlined text-primary">check_circle</span></div>
+                            <div class="feed-body"><div class="feed-title">Complaint resolved: Low water pressure on 2nd floor</div><div class="feed-meta">25 Jul, 16:10 · Complaints</div></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="panel-head"><h3>Recent Announcements</h3><span class="mini-link" onclick="sshow('Student Announcements', document.querySelector('[data-snav=\'Student Announcements\']'))">View all →</span></div>
+                        <div class="js-announce-overview"></div>
+                        <h3 style="margin-top:26px;">My Room &amp; Hostel Info</h3>
+                        <div class="section-box">
+                            <div class="flex justify-between text-sm mb-2"><span class="text-on-surface-variant">Room / Bed</span><strong class="font-grotesk">A-101 · Single</strong></div>
+                            <div class="flex justify-between text-sm mb-2"><span class="text-on-surface-variant">Mess Preference</span><strong class="font-grotesk">Veg</strong></div>
+                            <div class="flex justify-between text-sm"><span class="text-on-surface-variant">Warden</span><strong class="font-grotesk">Dr. Iyer</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Raise Complaint -->
+            <div class="spage" data-spage="Raise Complaint">
+                <h2>Raise a Complaint</h2>
+                <label class="UniNest">Category</label>
+                <select id="complaint-category" class="field">
+                    <option>Electrical</option><option>Carpentry</option><option>Plumbing</option><option>Mess</option><option>Water Supply</option><option>Pests</option><option>Room Change</option><option>Others</option>
+                </select>
+                <label class="UniNest">Description</label>
+                <input type="text" class="field" placeholder="Briefly describe the issue" value="Fan not working in room A-101">
+                <button class="btn-primary mt-6" onclick="sshow('Track Complaint', document.querySelector('[data-snav=\'Track Complaint\']'))"><span class="material-symbols-outlined">send</span>Submit Complaint</button>
+            </div>
+
+            <!-- Track Complaint -->
+            <div class="spage" data-spage="Track Complaint">
+                <h2>Track My Complaints</h2>
+                <table class="UniNest-table">
+                    <tr><th>Category</th><th>Description</th><th>Status</th><th>Raised On</th></tr>
+                    <tr><td>Electrical</td><td>Fan not working in room A-101</td><td><span class="badge pending">open</span></td><td>2026-07-27</td></tr>
+                    <tr><td>Water Supply</td><td>Low water pressure on 2nd floor</td><td><span class="badge approved">resolved</span></td><td>2026-07-20</td></tr>
+                    <tr><td>Pests</td><td>Ants near the study table</td><td><span class="badge approved">resolved</span></td><td>2026-07-15</td></tr>
+                </table>
+            </div>
+
+            <!-- Gate Passes -->
+            <div class="spage" data-spage="Gate Passes">
+                <h2>My Gate Passes</h2>
+                <table class="UniNest-table">
+                    <tr><th>Reason</th><th>Status</th><th>Out</th><th>In</th></tr>
+                    <tr><td>Weekend home visit</td><td><span class="badge approved">approved</span></td><td>2026-07-25 09:00</td><td>2026-07-27 18:00</td></tr>
+                    <tr><td>Doctor appointment</td><td><span class="badge pending">pending</span></td><td>-</td><td>-</td></tr>
+                </table>
+                <div class="section-box mt-6">
+                    <h3>Request a New Gate Pass</h3>
+                    <label class="UniNest">Reason</label>
+                    <input type="text" class="field" placeholder="e.g. Weekend home visit">
+                    <button class="btn-primary mt-4"><span class="material-symbols-outlined">send</span>Submit Request</button>
+                    <p class="text-xs text-on-surface-variant mt-3">Your warden will review and approve or reject this request.</p>
+                </div>
+            </div>
+
+            <!-- Visitor Request -->
+            <div class="spage" data-spage="Visitor Request">
+                <h2>Register a Visitor</h2>
+                <p class="text-sm text-on-surface-variant mt-1">Fill this in before your visitor arrives. A request is sent to your warden/supervisor immediately, and a QR code is <strong>automatically generated here</strong> the moment they approve it.</p>
+                <div class="two-col mt-4" style="grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <label class="UniNest">Visitor Name</label>
+                        <input type="text" id="vr-name" class="field" value="Rohit Mehta">
+                        <label class="UniNest">Visitor Contact Number</label>
+                        <input type="text" id="vr-contact" class="field" value="9123456780">
+                        <label class="UniNest">Purpose of Visit</label>
+                        <input type="text" id="vr-purpose" class="field" value="Parent visit">
+                        <button class="btn-primary mt-6" onclick="submitVisitorRequest()"><span class="material-symbols-outlined">send</span>Submit Request</button>
+                    </div>
+                    <div class="text-center">
+                        <div id="student-visitor-qr-wrap" class="mx-auto rounded-xl" style="width:180px; height:180px; background:repeating-linear-gradient(45deg,#674bb5,#674bb5 8px,#fff 8px,#fff 16px); opacity:0.5;"></div>
+                        <p class="font-mono text-xs text-on-surface-variant mt-3">Code: <span class="js-visitor-code">62041CE885</span></p>
+                        <p class="mt-1 js-visitor-status"><span class="badge pending">⏳ Pending Warden/Supervisor Approval</span></p>
+                        <p class="text-xs text-on-surface-variant mt-2">This QR turns active for scanning the moment a Warden or Supervisor approves it. Show it at the gate — no printing needed.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Announcements -->
+            <div class="spage" data-spage="Student Announcements">
+                <h2>Announcements</h2>
+                <table class="UniNest-table">
+                    <thead><tr><th>Title</th><th>Content</th><th>Posted By</th></tr></thead>
+                    <tbody class="js-student-notices-tbody"></tbody>
+                </table>
+            </div>
+
+            <!-- SOS -->
+            <div class="spage" data-spage="Student SOS">
+                <h2>Emergency SOS</h2>
+                <p class="text-sm text-on-surface-variant mt-1">Use this only in a genuine emergency. Pressing the button instantly alerts your warden and hostel security with your name and room number.</p>
+                <div class="section-box text-center py-10">
+                    <button class="btn-danger" style="font-size:16px; padding:16px 32px;" onclick="raiseSOS()"><span class="material-symbols-outlined">emergency</span>Raise SOS Alert</button>
+                    <p id="sos-status" class="text-sm text-on-surface-variant mt-4">No active alert.</p>
+                </div>
+            </div>
+
+            <!-- Profile -->
+            <div class="spage" data-spage="Student Profile">
+                <h2>My Profile</h2>
+                <div class="flex items-center gap-4 mt-4">
+                    <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center"><span class="material-symbols-outlined text-primary" style="font-size:32px;">school</span></div>
+                    <div>
+                        <div class="font-bold text-lg font-grotesk">Aarav Sharma</div>
+                        <div class="text-sm text-on-surface-variant">REG2026001</div>
+                    </div>
+                </div>
+                <div class="info-grid">
+                    <div class="info-cell"><div class="lbl2">Room / Bed Type</div><div class="val2">A-101 · Single Bed</div></div>
+                    <div class="info-cell"><div class="lbl2">Block</div><div class="val2">Block A</div></div>
+                    <div class="info-cell"><div class="lbl2">Mess Preference</div><div class="val2">Veg</div></div>
+                    <div class="info-cell"><div class="lbl2">Contact Number</div><div class="val2">9998887771</div></div>
+                    <div class="info-cell"><div class="lbl2">Warden</div><div class="val2">Dr. Iyer</div></div>
+                    <div class="info-cell"><div class="lbl2">Guardian Contact</div><div class="val2">9876543210</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+<!-- ============ WARDEN DASHBOARD ============ -->
+<div class="page" data-page="Warden Dashboard">
+    <div class="mesh-soft min-h-[calc(100vh-80px)] py-6">
+    <div class="dash-shell" id="wardenShell">
+        <div class="dash-sidebar glass-card">
+            <div class="p-6 bg-gradient-to-br from-primary to-on-primary-fixed-variant text-white">
+                <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mb-3"><span class="material-symbols-outlined" style="font-size:24px;">apartment</span></div>
+                <div class="font-bold text-base font-grotesk">Dr. Iyer</div>
+                <div class="text-xs opacity-90 mt-1">Warden · Block A &amp; B</div>
+                <div class="text-[11px] opacity-75 mt-3 pt-2 border-t border-white/25">Last login: Today, 08:02 AM</div>
+            </div>
+            <div class="py-2">
+                <div class="nav-item active" data-dnav="Overview" onclick="dshow('Overview', this)"><span class="left"><span class="material-symbols-outlined text-[20px]">home</span>Overview</span></div>
+                <div class="nav-group">
+                    <div class="nav-item" onclick="dtoggleGroup(this)">
+                        <span class="left"><span class="material-symbols-outlined text-[20px]">folder_open</span>Approvals</span>
+                        <span class="flex items-center gap-2"><span class="count js-count-approvals">3</span><span class="chevron material-symbols-outlined">chevron_right</span></span>
+                    </div>
+                    <div class="submenu">
+                        <div class="subitem" data-dnav="Leave Approvals" onclick="dshow('Leave Approvals', this)"><span>🧳 Leave Approvals</span><span class="js-count-leave text-outline">2</span></div>
+                        <div class="subitem" data-dnav="Visitor Approvals" onclick="dshow('Visitor Approvals', this)"><span>🎫 Visitor Approvals</span><span class="js-count-visitor text-outline">1</span></div>
+                    </div>
+                </div>
+                <div class="nav-item" data-dnav="Complaints" onclick="dshow('Complaints', this)"><span class="left"><span class="material-symbols-outlined text-[20px]">warning</span>Student Complaints</span><span class="count js-count-complaints">1</span></div>
+                <div class="nav-item" data-dnav="Announcements" onclick="dshow('Announcements', this)"><span class="left"><span class="material-symbols-outlined text-[20px]">campaign</span>Announcements</span><span class="count">2</span></div>
+                <div class="nav-item" data-dnav="Emergency Alerts" onclick="dshow('Emergency Alerts', this)"><span class="left"><span class="material-symbols-outlined text-[20px]">emergency</span>Emergency Alerts</span><span class="count alert js-count-alerts">1</span></div>
+                <div class="nav-item" data-dnav="Reports" onclick="dshow('Reports', this)"><span class="left"><span class="material-symbols-outlined text-[20px]">bar_chart</span>Reports</span></div>
+                <div class="nav-item" onclick="showPage('Welcome')"><span class="left"><span class="material-symbols-outlined text-[20px]">logout</span>Back to Home</span></div>
+            </div>
+        </div>
+
+        <div class="dash-content glass-card">
+            <div class="dpage active" data-dpage="Overview">
+                <h2>Welcome back, Dr. Iyer 👋</h2>
+                <p class="text-on-surface-variant text-sm mt-1">Here's what's happening across the hostel today, Wednesday 29 July 2026.</p>
+                <div class="stat-strip">
+                    <div class="stat-card"><div class="num js-stat-total">42</div><div class="lbl">Total Students</div></div>
+                    <div class="stat-card"><div class="num js-stat-approvals">3</div><div class="lbl">Pending Approvals</div></div>
+                    <div class="stat-card"><div class="num js-stat-complaints">1</div><div class="lbl">Open Complaints</div></div>
+                    <div class="stat-card"><div class="num js-stat-alerts">1</div><div class="lbl">Active Alerts</div></div>
+                </div>
+                <div class="two-col">
+                    <div>
+                        <div class="panel-head"><h3>Recent Updates</h3></div>
+                        <div class="js-feed"></div>
+                    </div>
+                    <div>
+                        <div class="panel-head"><h3>Recent Announcements</h3><span class="mini-link" onclick="dshow('Announcements', document.querySelector('#wardenShell [data-dnav=\'Announcements\']'))">Manage →</span></div>
+                        <div class="js-announce-overview"></div>
+                        <h3 style="margin-top:26px;">Occupancy Snapshot</h3>
+                        <div class="section-box">
+                            <div class="flex justify-between text-sm mb-2"><span class="text-on-surface-variant">Students in hostel</span><strong class="js-occ-in text-secondary">41 / 42</strong></div>
+                            <div class="flex justify-between text-sm"><span class="text-on-surface-variant">Currently out (approved)</span><strong class="js-occ-out" style="color:#a06a00;">1</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dpage" data-dpage="Leave Approvals">
+                <h2>Leave (Gate Pass) Approvals</h2>
+                <table class="UniNest-table"><thead><tr><th>Reg No</th><th>Reason</th><th>Requested At</th><th>Action</th></tr></thead><tbody class="js-leave-tbody"></tbody></table>
+            </div>
+
+            <div class="dpage" data-dpage="Visitor Approvals">
+                <h2>Visitor QR Approvals</h2>
+                <p class="text-sm text-on-surface-variant mt-1">Approving a request generates and activates that visitor's QR code for scanning at the gate.</p>
+                <table class="UniNest-table"><thead><tr><th>Visitor</th><th>Visiting</th><th>Purpose</th><th>Action</th></tr></thead><tbody class="js-visitor-pending-tbody"></tbody></table>
+                <h3 style="margin-top:32px;">Recent Visitors</h3>
+                <table class="UniNest-table"><thead><tr><th>Visitor</th><th>Visiting</th><th>Status</th><th>Check-in</th></tr></thead><tbody class="js-visitor-recent-tbody"></tbody></table>
+            </div>
+
+            <div class="dpage" data-dpage="Complaints">
+                <h2>Student Complaints</h2>
+                <table class="UniNest-table"><thead><tr><th>Reg No</th><th>Category</th><th>Description</th><th>Status</th><th>Action</th></tr></thead><tbody class="js-complaints-tbody"></tbody></table>
+            </div>
+
+            <div class="dpage" data-dpage="Announcements">
+                <h2>Announcements</h2>
+                <div class="section-box">
+                    <h3>Post a New Announcement</h3>
+                    <label class="UniNest">Title</label>
+                    <input type="text" class="field js-ann-title" placeholder="e.g. Mess Timing Change">
+                    <label class="UniNest">Content</label>
+                    <input type="text" class="field js-ann-content" placeholder="Details for students">
+                    <button class="btn-primary mt-5" onclick="postAnnouncement(this, 'Dr. Iyer (Warden)')"><span class="material-symbols-outlined">send</span>Post Announcement</button>
+                </div>
+                <h3 style="margin-top:32px;">Previously Sent</h3>
+                <table class="UniNest-table"><thead><tr><th>Title</th><th>Content</th><th>Date</th><th>Action</th></tr></thead><tbody class="js-announce-tbody"></tbody></table>
+            </div>
+
+            <div class="dpage" data-dpage="Emergency Alerts">
+                <h2>Emergency Alerts</h2>
+                <p class="text-sm text-on-surface-variant mt-1">Alerts raised by students (e.g. SOS button) appear here in real time.</p>
+                <table class="UniNest-table"><thead><tr><th>Student</th><th>Room</th><th>Raised At</th><th>Status</th><th>Action</th></tr></thead><tbody class="js-alerts-tbody"></tbody></table>
+                <div class="section-box mt-6">
+                    <h3>Send Alert to All Students</h3>
+                    <input type="text" class="field js-broadcast-input" placeholder="e.g. Evacuate Block A immediately">
+                    <button class="btn-danger mt-4" onclick="broadcastAlert(this)"><span class="material-symbols-outlined">emergency</span>Broadcast Emergency Alert</button>
+                </div>
+            </div>
+
+            <div class="dpage" data-dpage="Reports">
+                <h2>Reports &amp; Overview</h2>
+                <div class="stat-strip">
+                    <div class="stat-card"><div class="num js-stat-total">42</div><div class="lbl">Total Students</div></div>
+                    <div class="stat-card"><div class="num js-stat-out">1</div><div class="lbl">Students Currently Out</div></div>
+                    <div class="stat-card"><div class="num js-stat-complaints">1</div><div class="lbl">Open Complaints</div></div>
+                    <div class="stat-card"><div class="num js-stat-approvals">3</div><div class="lbl">Pending Approvals</div></div>
+                </div>
+                <h3>Students Currently Out (Approved Gate Passes)</h3>
+                <table class="UniNest-table"><thead><tr><th>Reg No</th><th>Reason</th><th>Out Time</th></tr></thead><tbody class="js-out-tbody"></tbody></table>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+<!-- ============ SUPERVISOR DASHBOARD ============ -->
+<div class="page" data-page="Supervisor Dashboard">
+    <div class="mesh-soft min-h-[calc(100vh-80px)] py-6">
+    <div class="dash-shell" id="supervisorShell">
+        <div class="dash-sidebar glass-card">
+            <div class="p-6 bg-gradient-to-br from-tertiary to-tertiary-container text-white">
+                <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mb-3"><span class="material-symbols-outlined" style="font-size:24px;">badge</span></div>
+                <div class="font-bold text-base font-grotesk">Mr. Verma</div>
+                <div class="text-xs opacity-90 mt-1">Supervisor · Block A &amp; B</div>
+                <div class="text-[11px] opacity-75 mt-3 pt-2 border-t border-white/25">Last login: Today, 07:40 AM</div>
+            </div>
+            <div class="py-2">
+                <div class="nav-group open">
+                    <div class="nav-item" onclick="dtoggleGroup(this)">
+                        <span class="left"><span class="material-symbols-outlined text-[20px]">folder_open</span>Approvals</span>
+                        <span class="flex items-center gap-2"><span class="count js-count-approvals">3</span><span class="chevron material-symbols-outlined">chevron_right</span></span>
+                    </div>
+                    <div class="submenu">
+                        <div class="subitem active" data-dnav="Leave Approvals" onclick="dshow('Leave Approvals', this)"><span>🧳 Leave Approvals</span><span class="js-count-leave text-outline">2</span></div>
+                        <div class="subitem" data-dnav="Visitor Approvals" onclick="dshow('Visitor Approvals', this)"><span>🎫 Visitor Approvals</span><span class="js-count-visitor text-outline">1</span></div>
+                    </div>
+                </div>
+                <div class="nav-item" data-dnav="Complaints" onclick="dshow('Complaints', this)"><span class="left"><span class="material-symbols-outlined text-[20px]">warning</span>Student Complaints</span><span class="count js-count-complaints">1</span></div>
+                <div class="nav-item" data-dnav="Announcements" onclick="dshow('Announcements', this)"><span class="left"><span class="material-symbols-outlined text-[20px]">campaign</span>Announcements</span><span class="count">3</span></div>
+                <div class="nav-item" onclick="showPage('Welcome')"><span class="left"><span class="material-symbols-outlined text-[20px]">logout</span>Back to Home</span></div>
+            </div>
+        </div>
+        <div class="dash-content glass-card">
+            <div class="dpage active" data-dpage="Leave Approvals">
+                <h2>Leave (Gate Pass) Approvals</h2>
+                <p class="text-sm text-on-surface-variant mt-1">Visible &amp; actionable by both Supervisor and Warden — whoever acts first updates it for everyone.</p>
+                <table class="UniNest-table"><thead><tr><th>Reg No</th><th>Reason</th><th>Requested At</th><th>Action</th></tr></thead><tbody class="js-leave-tbody"></tbody></table>
+            </div>
+            <div class="dpage" data-dpage="Visitor Approvals">
+                <h2>Visitor QR Approvals</h2>
+                <p class="text-sm text-on-surface-variant mt-1">Approving a request generates and activates that visitor's QR code for scanning at the gate.</p>
+                <table class="UniNest-table"><thead><tr><th>Visitor</th><th>Visiting</th><th>Purpose</th><th>Action</th></tr></thead><tbody class="js-visitor-pending-tbody"></tbody></table>
+                <h3 style="margin-top:32px;">Recent Visitors</h3>
+                <table class="UniNest-table"><thead><tr><th>Visitor</th><th>Visiting</th><th>Status</th><th>Check-in</th></tr></thead><tbody class="js-visitor-recent-tbody"></tbody></table>
+            </div>
+            <div class="dpage" data-dpage="Complaints">
+                <h2>Student Complaints</h2>
+                <table class="UniNest-table"><thead><tr><th>Reg No</th><th>Category</th><th>Description</th><th>Status</th><th>Action</th></tr></thead><tbody class="js-complaints-tbody"></tbody></table>
+            </div>
+            <div class="dpage" data-dpage="Announcements">
+                <h2>Announcements</h2>
+                <p class="text-sm text-on-surface-variant mt-1">Supervisors can view announcements posted by the Warden. Only the Warden can post new announcements.</p>
+                <table class="UniNest-table"><thead><tr><th>Title</th><th>Content</th><th>Date</th></tr></thead><tbody class="js-announce-tbody-supervisor"></tbody></table>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+<!-- ============ SECURITY DASHBOARD ============ -->
+<div class="page" data-page="Security Dashboard">
+    <div class="mesh-soft min-h-[calc(100vh-80px)] py-8">
+    <div class="max-w-5xl mx-auto px-6">
+        <div class="glass-card rounded-2xl p-8">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-on-primary-fixed-variant flex items-center justify-center text-white"><span class="material-symbols-outlined" style="font-size:28px;">shield_person</span></div>
+                    <div><h2 class="mb-0">Welcome, Ramesh Kumar</h2><p class="text-sm text-on-surface-variant">Security · Main Gate</p></div>
+                </div>
+                <a class="mini-link" onclick="showPage('Welcome')">← Back to Home</a>
+            </div>
+
+            <div class="section-box">
+    <h3>Scan Visitor QR Code</h3>
+
+    <div id="scanner-wrap" style="display:none; max-width:360px; margin-top:10px;">
+        <video id="scanner-video" playsinline autoplay muted style="width:100%; border-radius:12px; background:#000; display:block;"></video>
+        <canvas id="scanner-canvas" style="display:none;"></canvas>
+    </div>
+
+    <div class="mt-2" style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button id="scanner-start-btn" class="btn-primary" onclick="startScanner()"><span class="material-symbols-outlined">qr_code_scanner</span>Start Scanner</button>
+        <button id="scanner-stop-btn" class="btn-primary" style="display:none;" onclick="stopScanner()"><span class="material-symbols-outlined">stop_circle</span>Stop Scanner</button>
+    </div>
+    <p class="text-xs text-on-surface-variant mt-3">Point the camera at the visitor's QR code. Your browser will ask for camera permission the first time.</p>
+    <div id="scan-result-box" class="mt-4 bg-white/70 p-5 rounded-xl border border-outline-variant/40">
+        <p class="text-sm text-on-surface-variant">No visitor scanned yet. Click "Start Scanner" and allow camera access.</p>
+    </div>
+</div>
+
+            <h3 style="margin-top:32px;">Recent Visitors</h3>
+            <table class="UniNest-table"><thead><tr><th>Visitor</th><th>Visiting</th><th>Status</th><th>Check-in</th></tr></thead><tbody class="js-visitor-recent-tbody"></tbody></table>
+
+            <h3 style="margin-top:32px;">Students Currently Out (Approved Gate Passes)</h3>
+            <table class="UniNest-table"><thead><tr><th>Reg No</th><th>Reason</th><th>Out Time</th></tr></thead><tbody class="js-out-tbody"></tbody></table>
+        </div>
+    </div>
+    </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer class="mesh-gradient mt-16 py-12 px-6 text-on-surface-variant border-t border-on-surface/5">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+        <div>
+            <div class="text-2xl font-extrabold tracking-tight mb-2 text-primary font-grotesk">UniNest Hostel</div>
+            <p class="text-sm">Empowering campus life through tech.</p>
+        </div>
+        <div class="flex space-x-6">
+            <a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">help</span></a>
+            <a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">info</span></a>
+            <a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
+        </div>
+        <div class="text-xs text-center md:text-right opacity-70">
+            <p>© 2026 UniNest HMS Team.</p>
+            <p class="mt-1">Designed by students with passion.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+    const SUPABASE_URL = "https://izbvnulummfbednjacga.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_ZVTnV1ZbgOuqUb1Iz9DeNw_yX0KTpSC";
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script>
+    /* =========== LOGIN / NAV =========== */
+    const roleCredentials = {
+        student:    { id: "STU001", password: "1234@", dashboard: "Student Dashboard" },
+        supervisor: { id: "SUP001", password: "0876@", dashboard: "Supervisor Dashboard" },
+        warden:     { id: "WAR001", password: "0987@", dashboard: "Warden Dashboard" },
+        security:   { id: "SEC001", password: "0654@", dashboard: "Security Dashboard" }
+    };
+
+    function randomCaptcha() {
+        const chars = "ABCDEFGHJKLMNPQRSTUVWUniNest23456789";
+        let out = "";
+        for (let i = 0; i < 5; i++) out += chars[Math.floor(Math.random() * chars.length)];
+        return out;
+    }
+
+    function refreshCaptcha(role) {
+        const el = document.getElementById(`${role}-captcha-text`);
+        if (el) el.textContent = randomCaptcha();
+        const input = document.getElementById(`${role}-captcha-input`);
+        if (input) input.value = "";
+    }
+
+    function resetLoginForm(role) {
+        ["id-input", "pass-input", "captcha-input"].forEach(k => {
+            const el = document.getElementById(`${role}-${k}`);
+            if (el) el.value = "";
+        });
+        refreshCaptcha(role);
+        const err = document.getElementById(`${role}-login-error`);
+        if (err) { err.classList.add("hidden"); err.textContent = ""; }
+    }
+
+    function togglePw(inputId, btn) {
+        const input = document.getElementById(inputId);
+        const icon = btn.querySelector("span");
+        if (input.type === "password") { input.type = "text"; icon.textContent = "visibility_off"; }
+        else { input.type = "password"; icon.textContent = "visibility"; }
+    }
+
+    function attemptLogin(role) {
+        const cred = roleCredentials[role];
+        const idEl = document.getElementById(`${role}-id-input`);
+        const passEl = document.getElementById(`${role}-pass-input`);
+        const captchaTextEl = document.getElementById(`${role}-captcha-text`);
+        const captchaInputEl = document.getElementById(`${role}-captcha-input`);
+        const errEl = document.getElementById(`${role}-login-error`);
+
+        const enteredId = idEl.value.trim();
+        const enteredPass = passEl.value;
+        const enteredCaptcha = captchaInputEl.value.trim();
+        const correctCaptcha = captchaTextEl.textContent.trim();
+
+        function showErr(msg) { errEl.textContent = msg; errEl.classList.remove("hidden"); }
+
+        if (!enteredId || !enteredPass || !enteredCaptcha) return showErr("Please fill in all fields, including the captcha.");
+        if (enteredCaptcha.toUpperCase() !== correctCaptcha.toUpperCase()) {
+            showErr("Incorrect captcha. Please try again.");
+            refreshCaptcha(role);
+            return;
+        }
+        if (enteredId.toUpperCase() !== cred.id.toUpperCase() || enteredPass !== cred.password) {
+            showErr("Invalid ID or password.");
+            refreshCaptcha(role);
+            return;
+        }
+        errEl.classList.add("hidden");
+        showPage(cred.dashboard);
+    }
+
+    function showPage(name) {
+        document.querySelectorAll(".page").forEach(el => el.classList.toggle("active", el.dataset.page === name));
+        window.scrollTo(0, 0);
+        if (name === "Student Login") resetLoginForm("student");
+        if (name === "Supervisor Login") resetLoginForm("supervisor");
+        if (name === "Warden Login") resetLoginForm("warden");
+        if (name === "Security Login") resetLoginForm("security");
+    }
+    showPage("Welcome");
+
+    function dshow(name, navEl) {
+        const root = navEl.closest(".dash-shell");
+        root.querySelectorAll(".dpage").forEach(el => el.classList.toggle("active", el.dataset.dpage === name));
+        root.querySelectorAll(".nav-item, .subitem").forEach(el => el.classList.toggle("active", el.dataset.dnav === name));
+        const approvalsGroup = root.querySelector(".nav-group");
+        if (approvalsGroup && (name === "Leave Approvals" || name === "Visitor Approvals")) approvalsGroup.classList.add("open");
+    }
+
+    function dtoggleGroup(itemEl) { itemEl.parentElement.classList.toggle("open"); }
+
+    function sshow(name, navEl) {
+        document.querySelectorAll(".spage").forEach(el => el.classList.toggle("active", el.dataset.spage === name));
+        document.querySelectorAll("[data-snav]").forEach(el => el.classList.toggle("active", el.dataset.snav === name));
+    }
+
+    function raiseSOS() {
+        const el = document.getElementById("sos-status");
+        if (el) el.innerHTML = '<span class="badge active">🚨 Alert sent — Dr. Iyer &amp; Security notified at ' + new Date().toLocaleTimeString() + '</span>';
+    }
+
+    /* =========== APP STATE =========== */
+    const state = {
+        totalStudents: 42,
+        leaves: [
+            { reg: "REG2026001", reason: "Doctor appointment", time: "2026-07-27 08:10", status: "pending" },
+            { reg: "REG2026014", reason: "Family function", time: "2026-07-26 19:45", status: "pending" }
+        ],
+        visitors: [
+            { name: "Rohit Mehta", contact: "9123456780", purpose: "Parent visit", visiting: "Aarav Sharma (A-101)", code: "62041CE885", status: "pending", checkin: "-" },
+            { name: "Sunita Rao", contact: "9876543210", purpose: "Visit", visiting: "Priya Nair", code: "8837AQ019X", status: "checked_out", checkin: "2026-07-27 10:15" }
+        ],
+        complaints: [
+            { reg: "REG2026007", category: "Electrical", desc: "Fan not working in room B-204", status: "open" },
+            { reg: "REG2026001", category: "Water Supply", desc: "Low water pressure on 2nd floor", status: "resolved" }
+        ],
+        alerts: [
+            { student: "Priya Nair", room: "B-204", time: "2026-07-27 23:40", status: "active" }
+        ],
+        announcements: [
+            { title: "Fire Drill Notice", content: "Mandatory fire drill this Friday at 6 PM near Block A.", date: "Today", by: "Dr. Iyer (Warden)" },
+            { title: "Mess Timing Change", content: "Dinner now starts at 8 PM", date: "2026-07-26", by: "Dr. Iyer (Warden)" },
+            { title: "Water Supply Maintenance", content: "No water supply on Block B, 10 AM - 1 PM", date: "2026-07-25", by: "Mr. Verma (Supervisor)" }
+        ],
+        studentsOut: [
+            { reg: "REG2026001", reason: "Weekend home visit", time: "2026-07-25 09:00" }
+        ],
+        feed: [
+            { icon: "emergency", title: "Priya Nair (B-204) raised an SOS alert", badge: "active", meta: "Today, 23:40 · Emergency Alerts" },
+            { icon: "qr_code_2", title: "Rohit Mehta requested a visitor pass to see Aarav Sharma (A-101)", meta: "Today, 09:20 · Visitor Approvals" },
+            { icon: "luggage", title: "REG2026001 requested leave — Doctor appointment", meta: "27 Jul, 08:10 · Leave Approvals" },
+            { icon: "warning", title: "New complaint: Fan not working in room B-204", meta: "27 Jul, 07:55 · Student Complaints" },
+            { icon: "luggage", title: "REG2026014 requested leave — Family function", meta: "26 Jul, 19:45 · Leave Approvals" },
+            { icon: "check_circle", title: "Complaint resolved: Low water pressure on 2nd floor", meta: "25 Jul, 16:10 · Student Complaints" }
+        ]
+    };
+
+    function nowStr() {
+        const d = new Date();
+        return "Just now (" + d.toTimeString().slice(0, 5) + ")";
+    }
+
+    function pushFeed(icon, title, meta) {
+        state.feed.unshift({ icon, title, meta });
+        state.feed = state.feed.slice(0, 8);
+    }
+
+    /* =========== ACTIONS =========== */
+    function decideLeave(i, decision) {
+        const l = state.leaves[i];
+        l.status = decision;
+        if (decision === "approved") {
+            state.studentsOut.push({ reg: l.reg, reason: l.reason, time: nowStr() });
+            pushFeed("check_circle", `Leave approved for ${l.reg} — ${l.reason}`, nowStr() + " · Leave Approvals");
+        } else {
+            pushFeed("block", `Leave rejected for ${l.reg} — ${l.reason}`, nowStr() + " · Leave Approvals");
+        }
+        renderAll();
+    }
+
+    function decideVisitor(i) {
+        const v = state.visitors[i];
+        v.status = "approved";
+        pushFeed("qr_code_2", `Visitor pass approved for ${v.name} (visiting ${v.visiting})`, nowStr() + " · Visitor Approvals");
+        renderAll();
+    }
+
+    const RESIDENT = { name: "Aarav Sharma", room: "A-101" };
+    function genVisitorCode() { return (Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-4)).toUpperCase(); }
+    function submitVisitorRequest() {
+        const name = document.getElementById("vr-name").value.trim();
+        const contact = document.getElementById("vr-contact").value.trim();
+        const purpose = document.getElementById("vr-purpose").value.trim();
+        if (!name || !contact || !purpose) { alert("Please fill all fields."); return; }
+        state.visitors.unshift({ name, contact, purpose, visiting: `${RESIDENT.name} (${RESIDENT.room})`, code: genVisitorCode(), status: "pending", checkin: "-" });
+        pushFeed("qr_code_2", `${name} requested a visitor pass to see ${RESIDENT.name} (${RESIDENT.room})`, nowStr() + " · Visitor Approvals");
+        renderAll();
+    }
+
+    function resolveComplaint(i) {
+        state.complaints[i].status = "resolved";
+        pushFeed("check_circle", `Complaint resolved: ${state.complaints[i].desc}`, nowStr() + " · Student Complaints");
+        renderAll();
+    }
+
+    function ackAlert(i) {
+        state.alerts[i].status = "acknowledged";
+        pushFeed("emergency", `Emergency alert from ${state.alerts[i].student} acknowledged`, nowStr() + " · Emergency Alerts");
+        renderAll();
+    }
+
+    function broadcastAlert(btn) {
+        const input = btn.parentElement.querySelector(".js-broadcast-input");
+        const msg = (input.value || "").trim();
+        if (!msg) { input.focus(); return; }
+        alert("🚨 Broadcast sent to all students:\n\n" + msg);
+        input.value = "";
+    }
+
+    function postAnnouncement(btn, by) {
+        const box = btn.parentElement;
+        const title = box.querySelector(".js-ann-title").value.trim();
+        const content = box.querySelector(".js-ann-content").value.trim();
+        if (!title || !content) return;
+        state.announcements.unshift({ title, content, date: "Today", by });
+        box.querySelector(".js-ann-title").value = "";
+        box.querySelector(".js-ann-content").value = "";
+        pushFeed("campaign", `New announcement posted: ${title}`, nowStr() + " · Announcements");
+        renderAll();
+    }
+
+    function deleteAnnouncement(i) {
+        const a = state.announcements[i];
+        if (!confirm(`Delete announcement "${a.title}"?`)) return;
+        state.announcements.splice(i, 1);
+        pushFeed("delete", `Announcement deleted: ${a.title}`, nowStr() + " · Announcements");
+        renderAll();
+    }
+
+    let scannerStream = null;
+let scannerRAF = null;
+
+async function startScanner() {
+    const box = document.getElementById("scan-result-box");
+
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        box.innerHTML = `<p class="text-sm text-error font-semibold">This browser doesn't support camera access. Try Chrome/Edge/Safari, and make sure the page is loaded over HTTPS (or localhost).</p>`;
+        return;
+    }
+    if (!window.jsQR) {
+        box.innerHTML = `<p class="text-sm text-error font-semibold">QR scanning library failed to load. Check your internet connection and reload the page.</p>`;
+        return;
+    }
+
+    try {
+        scannerStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+    } catch (err) {
+        let msg = "Could not access the camera.";
+        if (err.name === "NotAllowedError") msg = "Camera permission was denied. Allow camera access for this site in your browser settings and try again.";
+        else if (err.name === "NotFoundError") msg = "No camera was found on this device.";
+        else if (err.name === "NotReadableError") msg = "The camera is already in use by another app.";
+        box.innerHTML = `<p class="text-sm text-error font-semibold">${msg}</p>`;
+        return;
+    }
+
+    const video = document.getElementById("scanner-video");
+    video.srcObject = scannerStream;
+    await video.play();
+
+    document.getElementById("scanner-wrap").style.display = "block";
+    document.getElementById("scanner-start-btn").style.display = "none";
+    document.getElementById("scanner-stop-btn").style.display = "inline-flex";
+    box.innerHTML = `<p class="text-sm text-on-surface-variant">Scanning… point the camera at the visitor's QR code.</p>`;
+
+    scanLoop();
+}
+
+function scanLoop() {
+    const video = document.getElementById("scanner-video");
+    const canvas = document.getElementById("scanner-canvas");
+
+    if (video.readyState === video.HAVE_ENOUGH_DATA) {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const result = jsQR(imageData.data, canvas.width, canvas.height);
+        if (result && result.data) {
+            handleScannedCode(result.data.trim());
+            return;
+        }
+    }
+    scannerRAF = requestAnimationFrame(scanLoop);
+}
+
+function stopScanner() {
+    if (scannerRAF) cancelAnimationFrame(scannerRAF);
+    scannerRAF = null;
+    if (scannerStream) { scannerStream.getTracks().forEach(t => t.stop()); scannerStream = null; }
+    document.getElementById("scanner-wrap").style.display = "none";
+    document.getElementById("scanner-start-btn").style.display = "inline-flex";
+    document.getElementById("scanner-stop-btn").style.display = "none";
+}
+
+function handleScannedCode(text) {
+    const box = document.getElementById("scan-result-box");
+    stopScanner();
+
+    const match = text.match(/^UniNest-VISITOR:(.+)$/);
+    const code = match ? match[1] : text;
+    const idx = state.visitors.findIndex(v => v.code === code);
+
+    if (idx === -1) {
+        box.innerHTML = `<p class="text-sm text-error font-semibold">QR code not recognized. It doesn't match any visitor pass.</p>`;
+        return;
+    }
+    const v = state.visitors[idx];
+    if (v.status !== "approved") {
+        box.innerHTML = `<p class="text-sm text-error font-semibold">${v.name}'s pass is "${v.status}" — it must be approved (and not already checked in) to check in at the gate.</p>`;
+        return;
+    }
+    box.innerHTML = `
+        <h4 class="mt-0 mb-3 font-grotesk font-bold">Visitor Details (scanned)</h4>
+        <table class="UniNest-table">
+            <tr><th>Name</th><td>${v.name}</td></tr>
+            <tr><th>Contact</th><td>${v.contact}</td></tr>
+            <tr><th>Purpose</th><td>${v.purpose}</td></tr>
+            <tr><th>Visiting</th><td>${v.visiting}</td></tr>
+            <tr><th>Status</th><td><span class="badge approved">approved — ready to check in</span></td></tr>
+        </table>
+        <button class="btn-primary mt-4" onclick="checkInVisitor(${idx})"><span class="material-symbols-outlined">how_to_reg</span>Check In Visitor</button>
+    `;
+}
+
+    function checkInVisitor(idx) {
+        state.visitors[idx].status = "checked_in";
+        state.visitors[idx].checkin = nowStr();
+        pushFeed("shield_person", `${state.visitors[idx].name} checked in at the gate`, nowStr() + " · Security");
+        document.getElementById("scan-result-box").innerHTML = `<p class="text-sm text-secondary font-semibold">✅ ${state.visitors[idx].name} checked in successfully.</p>`;
+        renderAll();
+    }
+
+    /* =========== RENDERING =========== */
+    function badgeFor(status) {
+        if (["approved","resolved","checked_out","acknowledged","checked_in"].includes(status)) return "approved";
+        if (status === "active") return "active";
+        return "pending";
+    }
+
+    function renderLeaves() {
+        const rows = state.leaves.map((l, i) => {
+            const action = l.status === "pending"
+                ? `<button class="btn-approve" onclick="decideLeave(${i}, 'approved')">Approve</button><button class="btn-reject" onclick="decideLeave(${i}, 'rejected')">Reject</button>`
+                : `<span class="badge ${badgeFor(l.status)}">${l.status}</span>`;
+            return `<tr><td>${l.reg}</td><td>${l.reason}</td><td>${l.time}</td><td>${action}</td></tr>`;
+        }).join("");
+        document.querySelectorAll(".js-leave-tbody").forEach(tb => tb.innerHTML = rows);
+    }
+
+    function renderVisitors() {
+        const pendingRows = state.visitors.map((v, i) => ({ v, i })).filter(x => x.v.status === "pending").map(({ v, i }) =>
+            `<tr><td>${v.name}</td><td>${v.visiting}</td><td>${v.purpose}</td><td><button class="btn-approve" onclick="decideVisitor(${i})">Approve</button></td></tr>`
+        ).join("") || `<tr><td colspan="4" class="text-outline text-center py-3">No pending visitor requests.</td></tr>`;
+        document.querySelectorAll(".js-visitor-pending-tbody").forEach(tb => tb.innerHTML = pendingRows);
+
+        const statusLabel = { pending: "pending approval", approved: "approved, awaiting check-in", checked_in: "checked in", checked_out: "checked out" };
+        const recentRows = state.visitors.map(v =>
+            `<tr><td>${v.name}</td><td>${v.visiting}</td><td><span class="badge ${badgeFor(v.status)}">${statusLabel[v.status] || v.status}</span></td><td>${v.checkin}</td></tr>`
+        ).join("");
+        document.querySelectorAll(".js-visitor-recent-tbody").forEach(tb => tb.innerHTML = recentRows);
+    }
+
+    function renderComplaints() {
+        const rows = state.complaints.map((c, i) => {
+            const action = c.status === "open"
+                ? `<button class="btn-approve" onclick="resolveComplaint(${i})">Mark Resolved</button>`
+                : "-";
+            return `<tr><td>${c.reg}</td><td>${c.category}</td><td>${c.desc}</td><td><span class="badge ${badgeFor(c.status)}">${c.status}</span></td><td>${action}</td></tr>`;
+        }).join("");
+        document.querySelectorAll(".js-complaints-tbody").forEach(tb => tb.innerHTML = rows);
+    }
+
+    function renderAlerts() {
+        const rows = state.alerts.map((a, i) => {
+            const action = a.status === "active"
+                ? `<button class="btn-reject" onclick="ackAlert(${i})">Acknowledge</button>`
+                : "-";
+            return `<tr><td>${a.student}</td><td>${a.room}</td><td>${a.time}</td><td><span class="badge ${badgeFor(a.status)}">${a.status}</span></td><td>${action}</td></tr>`;
+        }).join("");
+        document.querySelectorAll(".js-alerts-tbody").forEach(tb => tb.innerHTML = rows);
+    }
+
+    function renderAnnouncements() {
+        const rows = state.announcements.map((a, i) => `<tr><td class="font-semibold">${a.title}</td><td>${a.content}</td><td>${a.date}</td><td><button class="btn-reject" onclick="deleteAnnouncement(${i})">Delete</button></td></tr>`).join("")
+            || `<tr><td colspan="4" class="text-outline text-center py-3">No announcements yet.</td></tr>`;
+        document.querySelectorAll(".js-announce-tbody").forEach(tb => tb.innerHTML = rows);
+
+        const viewOnly = state.announcements.map(a => `<tr><td class="font-semibold">${a.title}</td><td>${a.content}</td><td>${a.date}</td></tr>`).join("")
+            || `<tr><td colspan="3" class="text-outline text-center py-3">No announcements yet.</td></tr>`;
+        document.querySelectorAll(".js-announce-tbody-supervisor").forEach(tb => tb.innerHTML = viewOnly);
+
+        const overviewHtml = state.announcements.slice(0, 3).map(a => `
+            <div class="section-box" style="margin-top:0; margin-bottom:12px;">
+                <div class="font-bold font-grotesk text-on-surface">${a.title}</div>
+                <div class="text-sm text-on-surface-variant mt-1">${a.content}</div>
+                <div class="text-xs text-outline mt-2">${a.date} · ${a.by}</div>
+            </div>`).join("");
+        document.querySelectorAll(".js-announce-overview").forEach(el => el.innerHTML = overviewHtml);
+
+        document.querySelectorAll(".js-student-notices-tbody").forEach(tb => {
+            tb.innerHTML = state.announcements.slice(0, 4).map(a => `<tr><td class="font-semibold">${a.title}</td><td>${a.content}</td><td>${a.by}</td></tr>`).join("");
+        });
+    }
+
+    function renderFeed() {
+        const html = state.feed.map(f => `
+            <div class="feed-item">
+                <div class="feed-icon"><span class="material-symbols-outlined text-primary">${f.icon}</span></div>
+                <div class="feed-body">
+                    <div class="feed-title">${f.title}${f.badge ? ` <span class="badge active ml-1">${f.badge}</span>` : ""}</div>
+                    <div class="feed-meta">${f.meta}</div>
+                </div>
+            </div>`).join("");
+        document.querySelectorAll(".js-feed").forEach(el => el.innerHTML = html);
+    }
+
+    function renderReportsAndOccupancy() {
+        const outRows = state.studentsOut.map(s => `<tr><td>${s.reg}</td><td>${s.reason}</td><td>${s.time}</td></tr>`).join("");
+        document.querySelectorAll(".js-out-tbody").forEach(tb => tb.innerHTML = outRows);
+        document.querySelectorAll(".js-stat-out").forEach(el => el.textContent = state.studentsOut.length);
+        const outCount = state.studentsOut.length;
+        document.querySelectorAll(".js-occ-in").forEach(el => el.textContent = `${state.totalStudents - outCount} / ${state.totalStudents}`);
+        document.querySelectorAll(".js-occ-out").forEach(el => el.textContent = outCount);
+    }
+
+    function renderNavCounts() {
+        const leavePending = state.leaves.filter(l => l.status === "pending").length;
+        const visitorPending = state.visitors.filter(v => v.status === "pending").length;
+        const complaintsOpen = state.complaints.filter(c => c.status === "open").length;
+        const alertsActive = state.alerts.filter(a => a.status === "active").length;
+        const approvalsTotal = leavePending + visitorPending;
+        document.querySelectorAll(".js-count-leave").forEach(el => el.textContent = leavePending);
+        document.querySelectorAll(".js-count-visitor").forEach(el => el.textContent = visitorPending);
+        document.querySelectorAll(".js-count-approvals").forEach(el => el.textContent = approvalsTotal);
+        document.querySelectorAll(".js-count-complaints").forEach(el => el.textContent = complaintsOpen);
+        document.querySelectorAll(".js-count-alerts").forEach(el => el.textContent = alertsActive);
+        document.querySelectorAll(".js-stat-total").forEach(el => el.textContent = state.totalStudents);
+        document.querySelectorAll(".js-stat-approvals").forEach(el => el.textContent = approvalsTotal);
+        document.querySelectorAll(".js-stat-complaints").forEach(el => el.textContent = complaintsOpen);
+        document.querySelectorAll(".js-stat-alerts").forEach(el => el.textContent = alertsActive);
+    }
+
+    function renderStudentVisitorQR() {
+        const v = state.visitors[0];
+        const wrap = document.getElementById("student-visitor-qr-wrap");
+        const statusEl = document.querySelector(".js-visitor-status");
+        const codeEl = document.querySelector(".js-visitor-code");
+        if (!wrap) return;
+        if (codeEl) codeEl.textContent = v.code;
+        if (v.status === "pending") {
+            wrap.innerHTML = "";
+            wrap.style.background = "repeating-linear-gradient(45deg,#674bb5,#674bb5 8px,#fff 8px,#fff 16px)";
+            wrap.style.opacity = "0.5";
+            if (statusEl) statusEl.innerHTML = `<span class="badge pending">⏳ Pending Warden/Supervisor Approval</span>`;
+        } else {
+            wrap.style.background = "none";
+            wrap.style.opacity = "1";
+            wrap.innerHTML = "";
+            if (window.QRCode) new QRCode(wrap, { text: `UniNest-VISITOR:${v.code}`, width: 180, height: 180 });
+            const labels = { approved: "✅ Approved — Active for scanning", checked_in: "✅ Checked in at gate", checked_out: "Visit complete" };
+            if (statusEl) statusEl.innerHTML = `<span class="badge approved">${labels[v.status] || v.status}</span>`;
+        }
+        const pendingCount = state.visitors.filter(x => x.status === "pending").length;
+        const ovNum = document.getElementById("ov-visitor-num");
+        if (ovNum) ovNum.textContent = pendingCount;
+        const snavCount = document.getElementById("snav-visitor-count");
+        if (snavCount) snavCount.textContent = pendingCount;
+        const ovBadge = document.getElementById("ov-visitor-badge");
+        if (ovBadge) {
+            const badgeLabels = { pending: "pending approval", approved: "approved — QR active", checked_in: "checked in at gate", checked_out: "visit complete" };
+            ovBadge.textContent = badgeLabels[v.status] || v.status;
+            ovBadge.className = "badge " + badgeFor(v.status) + " ml-1";
+        }
+    }
+
+    function renderUI() {
+    renderLeaves(); renderVisitors(); renderComplaints(); renderAlerts();
+    renderAnnouncements(); renderFeed(); renderReportsAndOccupancy();
+    renderNavCounts(); renderStudentVisitorQR();
+}
+
+/* ============ SUPABASE SYNC ============ */
+const STATE_ROW_ID = "main";
+let applyingRemote = false;
+let readyToSave = false;
+
+async function saveState() {
+    const { error } = await sb.from("hostel_state").upsert({ id: STATE_ROW_ID, data: state });
+    if (error) console.error("Supabase save failed:", error);
+}
+
+function renderAll() {
+    renderUI();
+    if (readyToSave && !applyingRemote) saveState();
+}
+
+async function initSync() {
+    const { data: row, error } = await sb.from("hostel_state").select("data").eq("id", STATE_ROW_ID).maybeSingle();
+    if (error) console.error("Supabase load failed:", error);
+
+    applyingRemote = true;
+    if (row && row.data) {
+        Object.assign(state, row.data);
+    }
+    renderAll();
+    applyingRemote = false;
+    readyToSave = true;
+    if (!row) saveState(); // first ever run: seed Supabase with default data
+
+    sb.channel("hostel_state_changes")
+        .on("postgres_changes", { event: "*", schema: "public", table: "hostel_state", filter: `id=eq.${STATE_ROW_ID}` }, payload => {
+            applyingRemote = true;
+            if (payload.new && payload.new.data) {
+                Object.assign(state, payload.new.data);
+            }
+            renderAll();
+            applyingRemote = false;
+        })
+        .subscribe();
+}
+
+initSync();
+</script>
+
+</body>
+</html>

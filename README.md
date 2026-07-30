@@ -148,14 +148,6 @@ To create a centralized hostel management platform that reduces paperwork, impro
 
 ---
 
-## 👩‍💻 Developed By
-
-**Ananya Varshney**
-
-Integrated M.Tech CSE (Cyber Security)
-
----
-
 ## 📜 License
 
 This project is developed for educational and hackathon purposes.

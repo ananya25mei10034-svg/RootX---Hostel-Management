@@ -1,0 +1,55 @@
+🏗️ System Architecture
+
+
+
+
+                                      ┌─────────────────────────┐
+                                      │       End Users         │
+                                      │─────────────────────────│
+                                      │ 👨‍🎓 Student             │
+                                      │ 🏫 Warden               │
+                                      │ 👨‍💼 Supervisor          │
+                                      │ 🛡 Security             │
+                                      └──────────┬──────────────┘
+                                                 │
+                                                 │ HTTPS
+                                                 ▼
+                              ┌─────────────────────────────────────┐
+                              │        Frontend (Client Side)       │
+                              │─────────────────────────────────────│
+                              │ • HTML5                             │
+                              │ • CSS3                              │
+                              │ • JavaScript                        │
+                              │ • Responsive UI                     │
+                              └──────────┬──────────────────────────┘
+                                         │
+                                         │ API Requests
+                                         ▼
+                        ┌──────────────────────────────────────┐
+                        │      Flask Backend (Python)          │
+                        │──────────────────────────────────────│
+                        │ Authentication & Authorization       │
+                        │ Student Management                   │
+                        │ Complaint Management                 │
+                        │ Gate Pass Management                 │
+                        │ Visitor Management                   │
+                        │ QR Code Generation & Verification    │
+                        │ Announcements                        │
+                        │ Emergency SOS                        │
+                        │ Reports & Analytics                  │
+                        └──────────┬───────────────────────────┘
+                                   │
+             ┌─────────────────────┼─────────────────────┐
+             │                     │                     │
+             ▼                     ▼                     ▼
+ ┌──────────────────┐   ┌──────────────────┐   ┌──────────────────┐
+ │   MySQL Database │   │ QR Code Service  │   │ Notification      │
+ │──────────────────│   │──────────────────│   │ Service           │
+ │ Student Records  │   │ QR Generation    │   │ Email Alerts      │
+ │ Hostel Details   │   │ QR Validation    │   │ SMS (Future)      │
+ │ Complaints       │   │ Visitor Passes   │   │ Push Notifications│
+ │ Visitors         │   └──────────────────┘   └──────────────────┘
+ │ Gate Passes      │
+ │ Users            │
+ │ Announcements    │
+ └──────────────────┘

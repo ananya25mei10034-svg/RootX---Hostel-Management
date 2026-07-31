@@ -1,9 +1,19 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title> UniNest- Seamless Institutional Management</title>
+<script>
+    // Apply saved/system theme immediately, before first paint, to avoid a light-mode flash.
+    (function () {
+        const saved = localStorage.getItem("UniNest-theme");
+        const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const isDark = saved ? saved === "dark" : prefersDark;
+        document.documentElement.classList.toggle("dark", isDark);
+        document.documentElement.classList.remove("light");
+    })();
+</script>
 <link href="https://fonts.googleapis.com" rel="preconnect">
 <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,46 +25,46 @@
         theme: {
             extend: {
                 colors: {
-                    "on-surface": "#191c1e",
-                    "outline": "#7a7583",
-                    "inverse-surface": "#2d3133",
-                    "inverse-on-surface": "#eff1f3",
-                    "surface-bright": "#f7f9fb",
-                    "surface-dim": "#d8dadc",
-                    "secondary-fixed-dim": "#62dcad",
-                    "tertiary-fixed-dim": "#7bd1fa",
-                    "outline-variant": "#cac4d4",
-                    "tertiary-fixed": "#c0e8ff",
-                    "tertiary": "#006686",
-                    "surface-container-lowest": "#ffffff",
-                    "background": "#f7f9fb",
-                    "primary-fixed": "#e8ddff",
-                    "secondary-container": "#80f9c8",
-                    "error": "#ba1a1a",
-                    "surface": "#f7f9fb",
-                    "primary": "#674bb5",
-                    "surface-container-low": "#f2f4f6",
-                    "on-secondary-fixed-variant": "#00513a",
-                    "error-container": "#ffdad6",
-                    "surface-variant": "#e0e3e5",
-                    "tertiary-container": "#4da7ce",
-                    "on-error-container": "#93000a",
-                    "primary-container": "#a78bfa",
-                    "on-primary-fixed-variant": "#4f319c",
-                    "on-surface-variant": "#494552",
-                    "surface-container": "#eceef0",
-                    "surface-container-high": "#e6e8ea",
-                    "inverse-primary": "#cebdff",
-                    "secondary": "#006c4e",
-                    "on-background": "#191c1e",
-                    "surface-container-highest": "#e0e3e5",
-                    "on-primary-container": "#3c1989",
-                    "secondary-fixed": "#80f9c8",
-                    "on-primary-fixed": "#21005e",
-                    "on-primary": "#ffffff",
-                    "on-secondary-container": "#007353",
-                    "on-tertiary-container": "#00394d",
-                    "primary-fixed-dim": "#cebdff"
+                    "on-surface": "var(--on-surface)",
+                    "outline": "var(--outline)",
+                    "inverse-surface": "var(--inverse-surface)",
+                    "inverse-on-surface": "var(--inverse-on-surface)",
+                    "surface-bright": "var(--surface-bright)",
+                    "surface-dim": "var(--surface-dim)",
+                    "secondary-fixed-dim": "var(--secondary-fixed-dim)",
+                    "tertiary-fixed-dim": "var(--tertiary-fixed-dim)",
+                    "outline-variant": "var(--outline-variant)",
+                    "tertiary-fixed": "var(--tertiary-fixed)",
+                    "tertiary": "var(--tertiary)",
+                    "surface-container-lowest": "var(--surface-container-lowest)",
+                    "background": "var(--background)",
+                    "primary-fixed": "var(--primary-fixed)",
+                    "secondary-container": "var(--secondary-container)",
+                    "error": "var(--error)",
+                    "surface": "var(--surface)",
+                    "primary": "var(--primary)",
+                    "surface-container-low": "var(--surface-container-low)",
+                    "on-secondary-fixed-variant": "var(--on-secondary-fixed-variant)",
+                    "error-container": "var(--error-container)",
+                    "surface-variant": "var(--surface-variant)",
+                    "tertiary-container": "var(--tertiary-container)",
+                    "on-error-container": "var(--on-error-container)",
+                    "primary-container": "var(--primary-container)",
+                    "on-primary-fixed-variant": "var(--on-primary-fixed-variant)",
+                    "on-surface-variant": "var(--on-surface-variant)",
+                    "surface-container": "var(--surface-container)",
+                    "surface-container-high": "var(--surface-container-high)",
+                    "inverse-primary": "var(--inverse-primary)",
+                    "secondary": "var(--secondary)",
+                    "on-background": "var(--on-background)",
+                    "surface-container-highest": "var(--surface-container-highest)",
+                    "on-primary-container": "var(--on-primary-container)",
+                    "secondary-fixed": "var(--secondary-fixed)",
+                    "on-primary-fixed": "var(--on-primary-fixed)",
+                    "on-primary": "var(--on-primary)",
+                    "on-secondary-container": "var(--on-secondary-container)",
+                    "on-tertiary-container": "var(--on-tertiary-container)",
+                    "primary-fixed-dim": "var(--primary-fixed-dim)"
                 },
                 borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 fontFamily: {
@@ -67,16 +77,150 @@
     };
 </script>
 <style>
+    /* ============ THEME VARIABLES ============ */
+    :root {
+        --on-surface: #191c1e;
+        --outline: #7a7583;
+        --inverse-surface: #2d3133;
+        --inverse-on-surface: #eff1f3;
+        --surface-bright: #f7f9fb;
+        --surface-dim: #d8dadc;
+        --secondary-fixed-dim: #62dcad;
+        --tertiary-fixed-dim: #7bd1fa;
+        --outline-variant: #cac4d4;
+        --tertiary-fixed: #c0e8ff;
+        --tertiary: #006686;
+        --surface-container-lowest: #ffffff;
+        --background: #f7f9fb;
+        --primary-fixed: #e8ddff;
+        --secondary-container: #80f9c8;
+        --error: #ba1a1a;
+        --surface: #f7f9fb;
+        --primary: #674bb5;
+        --surface-container-low: #f2f4f6;
+        --on-secondary-fixed-variant: #00513a;
+        --error-container: #ffdad6;
+        --surface-variant: #e0e3e5;
+        --tertiary-container: #4da7ce;
+        --on-error-container: #93000a;
+        --primary-container: #a78bfa;
+        --on-primary-fixed-variant: #4f319c;
+        --on-surface-variant: #494552;
+        --surface-container: #eceef0;
+        --surface-container-high: #e6e8ea;
+        --inverse-primary: #cebdff;
+        --secondary: #006c4e;
+        --on-background: #191c1e;
+        --surface-container-highest: #e0e3e5;
+        --on-primary-container: #3c1989;
+        --secondary-fixed: #80f9c8;
+        --on-primary-fixed: #21005e;
+        --on-primary: #ffffff;
+        --on-secondary-container: #007353;
+        --on-tertiary-container: #00394d;
+        --primary-fixed-dim: #cebdff;
+
+        /* raw-hex helpers used outside the token system */
+        --mesh-base: #f7f9fb;
+        --glass-bg: rgba(255, 255, 255, 0.65);
+        --glass-border: rgba(255, 255, 255, 0.7);
+        --field-bg: rgba(255, 255, 255, 0.7);
+        --section-bg: rgba(255, 255, 255, 0.65);
+        --table-border: #eceef0;
+        --badge-pending-bg: #fff2d6;
+        --badge-pending-fg: #a06a00;
+        --badge-approved-bg: #d9f2e2;
+        --badge-approved-fg: #1a7a41;
+        --badge-active-bg: #fde0e0;
+        --badge-active-fg: #b23b3b;
+        --btn-approve-bg: #d9f2e2;
+        --btn-approve-bg-hover: #c1e9d0;
+        --btn-approve-fg: #1a7a41;
+        --btn-reject-bg: #fde0e0;
+        --btn-reject-bg-hover: #f8caca;
+        --btn-reject-fg: #b23b3b;
+    }
+
+    html.dark {
+        --on-surface: #e6e1e9;
+        --outline: #948f9c;
+        --inverse-surface: #e6e1e9;
+        --inverse-on-surface: #303034;
+        --surface-bright: #3a3640;
+        --surface-dim: #131316;
+        --secondary-fixed-dim: #62dcad;
+        --tertiary-fixed-dim: #7bd1fa;
+        --outline-variant: #49454e;
+        --tertiary-fixed: #c0e8ff;
+        --tertiary: #7bd1fa;
+        --surface-container-lowest: #0d0d10;
+        --background: #131316;
+        --primary-fixed: #e8ddff;
+        --secondary-container: #0b4a34;
+        --error: #ffb4ab;
+        --surface: #131316;
+        --primary: #cebdff;
+        --surface-container-low: #1c1b1f;
+        --on-secondary-fixed-variant: #80f9c8;
+        --error-container: #93000a;
+        --surface-variant: #49454e;
+        --tertiary-container: #16495e;
+        --on-error-container: #ffdad6;
+        --primary-container: #4f319c;
+        --on-primary-fixed-variant: #e8ddff;
+        --on-surface-variant: #cac4d0;
+        --surface-container: #201f23;
+        --surface-container-high: #2a292e;
+        --inverse-primary: #674bb5;
+        --secondary: #62dcad;
+        --on-background: #e6e1e9;
+        --surface-container-highest: #353438;
+        --on-primary-container: #e8ddff;
+        --secondary-fixed: #80f9c8;
+        --on-primary-fixed: #21005e;
+        --on-primary: #35208a;
+        --on-secondary-container: #80f9c8;
+        --on-tertiary-container: #c0e8ff;
+        --primary-fixed-dim: #cebdff;
+
+        --mesh-base: #131316;
+        --glass-bg: rgba(28, 27, 31, 0.7);
+        --glass-border: rgba(255, 255, 255, 0.08);
+        --field-bg: rgba(255, 255, 255, 0.06);
+        --section-bg: rgba(255, 255, 255, 0.05);
+        --table-border: #2a292e;
+        --badge-pending-bg: #4a3900;
+        --badge-pending-fg: #ffd875;
+        --badge-approved-bg: #113c22;
+        --badge-approved-fg: #6fe39a;
+        --badge-active-bg: #4a1414;
+        --badge-active-fg: #ff9b9b;
+        --btn-approve-bg: #113c22;
+        --btn-approve-bg-hover: #16512e;
+        --btn-approve-fg: #6fe39a;
+        --btn-reject-bg: #4a1414;
+        --btn-reject-bg-hover: #601a1a;
+        --btn-reject-fg: #ff9b9b;
+    }
+
+    * { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease; }
+
     body { font-family: 'Be Vietnam Pro', sans-serif; }
     .mesh-gradient {
-        background-color: #f7f9fb;
+        background-color: var(--mesh-base);
         background-image:
-            radial-gradient(at 0% 0%, #e8ddff 0, transparent 50%),
-            radial-gradient(at 50% 0%, #c0e8ff 0, transparent 50%),
-            radial-gradient(at 100% 0%, #cebdff 0, transparent 50%);
+            radial-gradient(at 0% 0%, var(--primary-fixed) 0, transparent 50%),
+            radial-gradient(at 50% 0%, var(--tertiary-fixed) 0, transparent 50%),
+            radial-gradient(at 100% 0%, var(--primary-fixed-dim) 0, transparent 50%);
+        opacity: 1;
+    }
+    html.dark .mesh-gradient { background-image:
+            radial-gradient(at 0% 0%, rgba(103, 75, 181, 0.28) 0, transparent 50%),
+            radial-gradient(at 50% 0%, rgba(77, 167, 206, 0.2) 0, transparent 50%),
+            radial-gradient(at 100% 0%, rgba(206, 189, 255, 0.15) 0, transparent 50%);
     }
     .mesh-soft {
-        background-color: #f7f9fb;
+        background-color: var(--mesh-base);
         background-image:
             radial-gradient(at 0% 0%, rgba(167, 139, 250, 0.18) 0, transparent 50%),
             radial-gradient(at 100% 0%, rgba(0, 174, 255, 0.12) 0, transparent 50%),
@@ -84,13 +228,14 @@
             radial-gradient(at 0% 100%, rgba(167, 139, 250, 0.12) 0, transparent 50%);
     }
     .glass-card {
-        background: rgba(255, 255, 255, 0.65);
+        background: var(--glass-bg);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.7);
+        border: 1px solid var(--glass-border);
     }
     .inner-glow { box-shadow: inset 1px 1px 0px 0px rgba(255, 255, 255, 0.5); }
-    .input-focus-accent:focus-within { border-bottom-color: #674bb5; }
+    html.dark .inner-glow { box-shadow: inset 1px 1px 0px 0px rgba(255, 255, 255, 0.06); }
+    .input-focus-accent:focus-within { border-bottom-color: var(--primary); }
 
     .page { display: none; }
     .page.active { display: block; }
@@ -101,18 +246,18 @@
 
     /* Badges */
     .badge { display: inline-block; padding: 3px 10px; border-radius: 9999px; font-size: 11px; font-weight: 700; letter-spacing: 0.02em; }
-    .badge.pending { background: #fff2d6; color: #a06a00; }
-    .badge.approved { background: #d9f2e2; color: #1a7a41; }
-    .badge.active { background: #fde0e0; color: #b23b3b; }
+    .badge.pending { background: var(--badge-pending-bg); color: var(--badge-pending-fg); }
+    .badge.approved { background: var(--badge-approved-bg); color: var(--badge-approved-fg); }
+    .badge.active { background: var(--badge-active-bg); color: var(--badge-active-fg); }
 
     /* Tables */
     table.UniNest-table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 14px; }
-    table.UniNest-table th, table.UniNest-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #eceef0; }
-    table.UniNest-table th { background: rgba(103, 75, 181, 0.06); color: #4f319c; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+    table.UniNest-table th, table.UniNest-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--table-border); }
+    table.UniNest-table th { background: rgba(103, 75, 181, 0.08); color: var(--primary); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
 
     /* Login input underline style */
-    .field-underline { border-bottom: 2px solid #cac4d4; }
-    .field-underline:focus-within { border-bottom-color: #674bb5; }
+    .field-underline { border-bottom: 2px solid var(--outline-variant); }
+    .field-underline:focus-within { border-bottom-color: var(--primary); }
 
     /* Sidebar */
     .dash-shell { display: flex; align-items: flex-start; gap: 24px; max-width: 1280px; margin: 30px auto; padding: 0 24px; }
@@ -140,9 +285,9 @@
     /* Stat cards */
     .stat-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 20px 0 28px; }
     .stat-card { background: rgba(103, 75, 181, 0.04); border-radius: 16px; padding: 18px 20px; border: 1px solid rgba(103, 75, 181, 0.1); position: relative; overflow: hidden; }
-    .stat-card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: #674bb5; }
-    .stat-card .num { font-size: 28px; font-weight: 700; color: #191c1e; font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.02em; }
-    .stat-card .lbl { font-size: 12.5px; color: #494552; margin-top: 2px; font-weight: 500; }
+    .stat-card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--primary); }
+    .stat-card .num { font-size: 28px; font-weight: 700; color: var(--on-surface); font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.02em; }
+    .stat-card .lbl { font-size: 12.5px; color: var(--on-surface-variant); margin-top: 2px; font-weight: 500; }
 
     /* Buttons */
     .btn-primary { background: linear-gradient(135deg, #674bb5, #4da7ce); color: white; font-weight: 700; padding: 12px 22px; border-radius: 12px; box-shadow: 0 6px 16px -4px rgba(103, 75, 181, 0.35); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; cursor: pointer; font-family: 'Poppins', sans-serif; }
@@ -150,29 +295,29 @@
     .btn-primary:active { transform: scale(0.97); }
     .btn-danger { background: linear-gradient(135deg, #d13b3b, #a51e1e); color: white; font-weight: 700; padding: 12px 22px; border-radius: 12px; box-shadow: 0 6px 16px -4px rgba(209, 59, 59, 0.35); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; cursor: pointer; font-family: 'Poppins', sans-serif; }
     .btn-danger:hover { transform: translateY(-1px); }
-    .btn-approve { background: #d9f2e2; color: #1a7a41; padding: 6px 14px; border-radius: 8px; font-size: 12.5px; font-weight: 700; border: 1px solid rgba(26, 122, 65, 0.2); cursor: pointer; margin-right: 6px; }
-    .btn-approve:hover { background: #c1e9d0; }
-    .btn-reject { background: #fde0e0; color: #b23b3b; padding: 6px 14px; border-radius: 8px; font-size: 12.5px; font-weight: 700; border: 1px solid rgba(178, 59, 59, 0.2); cursor: pointer; }
-    .btn-reject:hover { background: #f8caca; }
+    .btn-approve { background: var(--btn-approve-bg); color: var(--btn-approve-fg); padding: 6px 14px; border-radius: 8px; font-size: 12.5px; font-weight: 700; border: 1px solid rgba(26, 122, 65, 0.2); cursor: pointer; margin-right: 6px; }
+    .btn-approve:hover { background: var(--btn-approve-bg-hover); }
+    .btn-reject { background: var(--btn-reject-bg); color: var(--btn-reject-fg); padding: 6px 14px; border-radius: 8px; font-size: 12.5px; font-weight: 700; border: 1px solid rgba(178, 59, 59, 0.2); cursor: pointer; }
+    .btn-reject:hover { background: var(--btn-reject-bg-hover); }
 
     input[type=text], input[type=password], select, textarea { font-family: 'Be Vietnam Pro', sans-serif; }
-    .field { width: 100%; padding: 10px 14px; margin-top: 6px; border: 1px solid #cac4d4; border-radius: 10px; font-size: 14px; background: rgba(255,255,255,0.7); outline: none; transition: all 0.15s; }
-    .field:focus { border-color: #674bb5; box-shadow: 0 0 0 3px rgba(103, 75, 181, 0.15); }
-    label.UniNest { display: block; margin-top: 14px; font-weight: 700; font-size: 12px; color: #494552; text-transform: uppercase; letter-spacing: 0.05em; font-family: 'Poppins', sans-serif; }
+    .field { width: 100%; padding: 10px 14px; margin-top: 6px; border: 1px solid var(--outline-variant); border-radius: 10px; font-size: 14px; background: var(--field-bg); outline: none; transition: all 0.15s; color: var(--on-surface); }
+    .field:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(103, 75, 181, 0.15); }
+    label.UniNest { display: block; margin-top: 14px; font-weight: 700; font-size: 12px; color: var(--on-surface-variant); text-transform: uppercase; letter-spacing: 0.05em; font-family: 'Poppins', sans-serif; }
 
-    .section-box { background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(12px); border-radius: 16px; padding: 22px; margin-top: 22px; border: 1px solid rgba(103, 75, 181, 0.08); }
+    .section-box { background: var(--section-bg); backdrop-filter: blur(12px); border-radius: 16px; padding: 22px; margin-top: 22px; border: 1px solid rgba(103, 75, 181, 0.08); }
 
     .feed-item { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(103, 75, 181, 0.08); }
     .feed-item:last-child { border-bottom: none; }
     .feed-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; background: rgba(103, 75, 181, 0.08); }
-    .feed-title { font-weight: 600; font-size: 14px; color: #191c1e; }
-    .feed-meta { font-size: 12px; color: #7a7583; margin-top: 3px; }
+    .feed-title { font-weight: 600; font-size: 14px; color: var(--on-surface); }
+    .feed-meta { font-size: 12px; color: var(--outline); margin-top: 3px; }
 
     .two-col { display: grid; grid-template-columns: 1.3fr 1fr; gap: 26px; margin-top: 6px; }
     .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 20px; }
     .info-cell { background: rgba(103, 75, 181, 0.05); border-radius: 12px; padding: 14px 16px; border: 1px solid rgba(103, 75, 181, 0.08); }
-    .info-cell .lbl2 { font-size: 11px; color: #7a7583; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
-    .info-cell .val2 { font-size: 15px; font-weight: 700; color: #191c1e; margin-top: 4px; font-family: 'Space Grotesk', sans-serif; }
+    .info-cell .lbl2 { font-size: 11px; color: var(--outline); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+    .info-cell .val2 { font-size: 15px; font-weight: 700; color: var(--on-surface); margin-top: 4px; font-family: 'Space Grotesk', sans-serif; }
 
     /* Role card corner radii like the UniNest landing */
     .role-card-shape { border-top-left-radius: 1.5rem; border-bottom-right-radius: 1.5rem; border-top-right-radius: 4rem; border-bottom-left-radius: 4rem; }
@@ -185,13 +330,22 @@
     }
 
     .panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-    .panel-head h3 { color: #191c1e; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; margin: 0; }
-    .mini-link { font-size: 13px; color: #674bb5; font-weight: 600; cursor: pointer; }
+    .panel-head h3 { color: var(--on-surface); font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; margin: 0; }
+    .mini-link { font-size: 13px; color: var(--primary); font-weight: 600; cursor: pointer; }
     .mini-link:hover { text-decoration: underline; }
 
-    h1, h2, h3, h4 { color: #191c1e; font-family: 'Space Grotesk', sans-serif; }
+    h1, h2, h3, h4 { color: var(--on-surface); font-family: 'Space Grotesk', sans-serif; }
     h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.01em; }
     h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+
+    /* Theme toggle button icon swap */
+    .theme-toggle-btn .icon-dark { display: inline-block; }
+    .theme-toggle-btn .icon-light { display: none; }
+    html.dark .theme-toggle-btn .icon-dark { display: none; }
+    html.dark .theme-toggle-btn .icon-light { display: inline-block; }
+
+    /* Small warn-colored text (used for "currently out" stat) */
+    .text-warn { color: var(--badge-pending-fg); }
 </style>
 </head>
 <body class="min-h-screen text-on-surface bg-surface">
@@ -213,8 +367,9 @@
             <button class="text-on-surface-variant hover:bg-primary-fixed/50 hover:text-primary p-2 rounded-full transition-colors" title="Notifications">
                 <span class="material-symbols-outlined">notifications</span>
             </button>
-            <button class="text-on-surface-variant hover:bg-primary-fixed/50 hover:text-primary p-2 rounded-full transition-colors" onclick="document.documentElement.classList.toggle('dark')" title="Toggle theme">
-                <span class="material-symbols-outlined">dark_mode</span>
+            <button class="theme-toggle-btn text-on-surface-variant hover:bg-primary-fixed/50 hover:text-primary p-2 rounded-full transition-colors" onclick="toggleTheme()" title="Toggle theme">
+                <span class="material-symbols-outlined icon-dark">dark_mode</span>
+                <span class="material-symbols-outlined icon-light">light_mode</span>
             </button>
         </div>
     </div>
@@ -312,10 +467,10 @@
                 </div>
                 <div>
                     <label class="UniNest">Security Verification</label>
-                    <div class="flex items-center gap-3 bg-white/60 p-3 rounded-xl border border-outline-variant/40 mt-1">
+                    <div class="flex items-center gap-3 bg-surface-container-lowest/60 p-3 rounded-xl border border-outline-variant/40 mt-1">
                         <div id="student-captcha-text" class="bg-primary/10 py-2 px-4 rounded-lg font-mono text-lg tracking-[0.5em] select-none italic text-primary font-bold line-through decoration-primary/30 shadow-inner border border-primary/10">6C05Q</div>
                         <button type="button" class="text-on-surface-variant hover:text-primary hover:rotate-180 transition-all duration-500 p-1" onclick="refreshCaptcha('student')"><span class="material-symbols-outlined">refresh</span></button>
-                        <input id="student-captcha-input" class="flex-grow min-w-0 bg-white/70 border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="Type text" type="text">
+                        <input id="student-captcha-input" class="flex-grow min-w-0 bg-surface-container-lowest/70 border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="Type text" type="text">
                     </div>
                 </div>
                 <p id="student-login-error" class="text-error text-sm font-semibold hidden"></p>
@@ -361,10 +516,10 @@
                 </div>
                 <div>
                     <label class="UniNest">Security Verification</label>
-                    <div class="flex items-center gap-3 bg-white/60 p-3 rounded-xl border border-outline-variant/40 mt-1">
+                    <div class="flex items-center gap-3 bg-surface-container-lowest/60 p-3 rounded-xl border border-outline-variant/40 mt-1">
                         <div id="warden-captcha-text" class="bg-primary/10 py-2 px-4 rounded-lg font-mono text-lg tracking-[0.5em] select-none italic text-primary font-bold line-through decoration-primary/30 shadow-inner border border-primary/10">9F3AK</div>
                         <button type="button" class="text-on-surface-variant hover:text-primary hover:rotate-180 transition-all duration-500 p-1" onclick="refreshCaptcha('warden')"><span class="material-symbols-outlined">refresh</span></button>
-                        <input id="warden-captcha-input" class="flex-grow min-w-0 bg-white/70 border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="Type text" type="text">
+                        <input id="warden-captcha-input" class="flex-grow min-w-0 bg-surface-container-lowest/70 border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="Type text" type="text">
                     </div>
                 </div>
                 <p id="warden-login-error" class="text-error text-sm font-semibold hidden"></p>
@@ -406,10 +561,10 @@
                 </div>
                 <div>
                     <label class="UniNest">Security Verification</label>
-                    <div class="flex items-center gap-3 bg-white/60 p-3 rounded-xl border border-outline-variant/40 mt-1">
+                    <div class="flex items-center gap-3 bg-surface-container-lowest/60 p-3 rounded-xl border border-outline-variant/40 mt-1">
                         <div id="supervisor-captcha-text" class="bg-primary/10 py-2 px-4 rounded-lg font-mono text-lg tracking-[0.5em] select-none italic text-primary font-bold line-through decoration-primary/30 shadow-inner border border-primary/10">7BQ2X</div>
                         <button type="button" class="text-on-surface-variant hover:text-primary hover:rotate-180 transition-all duration-500 p-1" onclick="refreshCaptcha('supervisor')"><span class="material-symbols-outlined">refresh</span></button>
-                        <input id="supervisor-captcha-input" class="flex-grow min-w-0 bg-white/70 border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="Type text" type="text">
+                        <input id="supervisor-captcha-input" class="flex-grow min-w-0 bg-surface-container-lowest/70 border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="Type text" type="text">
                     </div>
                 </div>
                 <p id="supervisor-login-error" class="text-error text-sm font-semibold hidden"></p>
@@ -451,10 +606,10 @@
                 </div>
                 <div>
                     <label class="UniNest">Security Verification</label>
-                    <div class="flex items-center gap-3 bg-white/60 p-3 rounded-xl border border-outline-variant/40 mt-1">
+                    <div class="flex items-center gap-3 bg-surface-container-lowest/60 p-3 rounded-xl border border-outline-variant/40 mt-1">
                         <div id="security-captcha-text" class="bg-primary/10 py-2 px-4 rounded-lg font-mono text-lg tracking-[0.5em] select-none italic text-primary font-bold line-through decoration-primary/30 shadow-inner border border-primary/10">4KD91</div>
                         <button type="button" class="text-on-surface-variant hover:text-primary hover:rotate-180 transition-all duration-500 p-1" onclick="refreshCaptcha('security')"><span class="material-symbols-outlined">refresh</span></button>
-                        <input id="security-captcha-input" class="flex-grow min-w-0 bg-white/70 border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="Type text" type="text">
+                        <input id="security-captcha-input" class="flex-grow min-w-0 bg-surface-container-lowest/70 border border-outline-variant rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="Type text" type="text">
                     </div>
                 </div>
                 <p id="security-login-error" class="text-error text-sm font-semibold hidden"></p>
@@ -698,7 +853,7 @@
                         <h3 style="margin-top:26px;">Occupancy Snapshot</h3>
                         <div class="section-box">
                             <div class="flex justify-between text-sm mb-2"><span class="text-on-surface-variant">Students in hostel</span><strong class="js-occ-in text-secondary">41 / 42</strong></div>
-                            <div class="flex justify-between text-sm"><span class="text-on-surface-variant">Currently out (approved)</span><strong class="js-occ-out" style="color:#a06a00;">1</strong></div>
+                            <div class="flex justify-between text-sm"><span class="text-on-surface-variant">Currently out (approved)</span><strong class="js-occ-out text-warn">1</strong></div>
                         </div>
                     </div>
                 </div>
@@ -770,8 +925,8 @@
         <div class="dash-sidebar glass-card">
             <div class="p-6 bg-gradient-to-br from-tertiary to-tertiary-container text-white">
                 <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mb-3"><span class="material-symbols-outlined" style="font-size:24px;">badge</span></div>
-                <div class="font-bold text-base font-grotesk">Mr. Verma</div>
-                <div class="text-xs opacity-90 mt-1">Supervisor · Block A &amp; B</div>
+                <div class="font-bold text-base font-grotesk">Mr. Verma (ELECTRICAL)</div>
+                <div class="text-xs opacity-90 mt-1">Supervisor · Block A  </div>
                 <div class="text-[11px] opacity-75 mt-3 pt-2 border-t border-white/25">Last login: Today, 07:40 AM</div>
             </div>
             <div class="py-2">
@@ -843,7 +998,7 @@
         <button id="scanner-stop-btn" class="btn-primary" style="display:none;" onclick="stopScanner()"><span class="material-symbols-outlined">stop_circle</span>Stop Scanner</button>
     </div>
     <p class="text-xs text-on-surface-variant mt-3">Point the camera at the visitor's QR code. Your browser will ask for camera permission the first time.</p>
-    <div id="scan-result-box" class="mt-4 bg-white/70 p-5 rounded-xl border border-outline-variant/40">
+    <div id="scan-result-box" class="mt-4 bg-surface-container-lowest/70 p-5 rounded-xl border border-outline-variant/40">
         <p class="text-sm text-on-surface-variant">No visitor scanned yet. Click "Start Scanner" and allow camera access.</p>
     </div>
 </div>
@@ -916,6 +1071,12 @@
         refreshCaptcha(role);
         const err = document.getElementById(`${role}-login-error`);
         if (err) { err.classList.add("hidden"); err.textContent = ""; }
+    }
+
+    function toggleTheme() {
+        const isDark = document.documentElement.classList.toggle("dark");
+        localStorage.setItem("UniNest-theme", isDark ? "dark" : "light");
+        if (window.QRCode) renderStudentVisitorQR(); // re-render QR (uses theme-dependent placeholder colors)
     }
 
     function togglePw(inputId, btn) {
